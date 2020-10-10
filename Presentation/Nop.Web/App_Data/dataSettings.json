@@ -1,0 +1,5 @@
+﻿{
+  "DataConnectionString": "Data Source=.\\SQLEXPRESS;Initial Catalog=codeislife_youtube;Integrated Security=True;Persist Security Info=False",
+  "DataProvider": "sqlserver",
+  "RawDataSettings": {}
+}
