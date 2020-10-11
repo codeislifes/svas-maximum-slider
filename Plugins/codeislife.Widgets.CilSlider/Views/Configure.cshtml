@@ -61,6 +61,16 @@
                 <div class="form-group">
                     <div class="col-md-3">
                         @*<nop-override-store-checkbox asp-for="Picture1Id_OverrideForStore" asp-input="Picture1Id" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />*@
+                        <nop-label asp-for="DirectionId" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="DirectionId" asp-items="@(((Direction)Model.DirectionId).ToSelectList())" />
+                        <span asp-validation-for="DirectionId"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @*<nop-override-store-checkbox asp-for="Picture1Id_OverrideForStore" asp-input="Picture1Id" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />*@
                         <nop-label asp-for="InitialSlide" />
                     </div>
                     <div class="col-md-9">

@@ -1,6 +1,7 @@
 ﻿using Nop.Core;
 using Nop.Services.Cms;
 using Nop.Services.Configuration;
+using Nop.Services.Localization;
 using Nop.Services.Plugins;
 using Nop.Web.Framework.Infrastructure;
 using System.Collections.Generic;
@@ -12,15 +13,18 @@ namespace codeislife.Widgets.CilSlider
         #region Fields
         private readonly IWebHelper _webHelper;
         private readonly ISettingService _settingService;
+        private readonly ILocalizationService _localizationService;
         #endregion
 
         #region Ctor
         public CilSliderPluginProcessor(
             IWebHelper webHelper,
-            ISettingService settingService)
+            ISettingService settingService,
+            ILocalizationService localizationService)
         {
             _webHelper = webHelper;
             _settingService = settingService;
+            _localizationService = localizationService;
         }
         #endregion
 
@@ -46,11 +50,25 @@ namespace codeislife.Widgets.CilSlider
 
             _settingService.SaveSetting(settings);
 
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.ContainerCssSelector", "Container Css Selector");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.ContainerCssSelector.Hint", "Swiper Slider kapsayan html elementine ait css selector girin. id için #selector, class için .selector!");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.PaginationCssSelector", "Pagination Css Selector");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.NavigationNextCssSelector", "Navigation Next Css Selector");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.NavigationPrevCssSelector", "Navigation Prev Css Selector");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.ScrollBarCssSelector", "Scroll Bar Css Selector");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.Direction", "Direction");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.InitialSlide", "Initial Slide");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.Speed", "Speed");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.Loop", "Loop");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.PaginationEnabled", "Pagination Enabled");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.NavigationEnabled", "Navigation Enabled");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.ScrollBarEnabled", "Scroll Bar Enabled");
         }
 
         public override void Uninstall()
         {
             _settingService.DeleteSetting<CilSliderSettings>();
+            _localizationService.DeletePluginLocaleResources("codeislife.Widgets.CilSlider");
         }
 
         public override void PreparePluginToUninstall()

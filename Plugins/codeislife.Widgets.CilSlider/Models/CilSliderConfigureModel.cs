@@ -21,6 +21,9 @@ namespace codeislife.Widgets.CilSlider.Models
         public string ScrollBarCssSelector { get; set; }
 
         [NopResourceDisplayName("codeislife.Widgets.CilSlider.Models.Direction")]
+        public int DirectionId { get; set; }
+
+        [NopResourceDisplayName("codeislife.Widgets.CilSlider.Models.Direction")]
         public Direction Direction { get; set; }
 
         [NopResourceDisplayName("codeislife.Widgets.CilSlider.Models.InitialSlide")]

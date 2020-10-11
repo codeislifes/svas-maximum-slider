@@ -12,32 +12,60 @@
         <div class="swiper-slide">Slide 2</div>
         <div class="swiper-slide">Slide 3</div>
     </div>
-    <div class="swiper-pagination"></div>
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
-    <div class="swiper-scrollbar"></div>
+    @if (Model.PaginationEnabled)
+    {
+        <div class="swiper-pagination"></div>
+    }
+
+    @if (Model.NavigationEnabled)
+    {
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    }
+
+    @if (Model.ScrollBarEnabled)
+    {
+        <div class="swiper-scrollbar"></div>
+    }
 </div>
 
 <script type="text/javascript">
     var mySwiper = new Swiper('@Model.ContainerCssSelector', {
         // Optional parameters
         direction: '@Model.Direction.ToString().ToLower()',
-        loop: true,
+        loop: @Model.Loop.ToString().ToLower(),
+        speed: @Model.Speed,
+        @if(Model.PaginationEnabled)
+        {
+            <text>
+            // If we need pagination
+            pagination: {
+                el: '@Model.PaginationCssSelector',
+            },
+            </text>
+        }
 
-        // If we need pagination
-        pagination: {
-            el: '@Model.PaginationCssSelector',
-        },
 
-        // Navigation arrows
-        navigation: {
-            nextEl: '@Model.NavigationNextCssSelector',
-            prevEl: '@Model.NavigationPrevCssSelector',
-        },
+        @if(Model.NavigationEnabled)
+        {
+            <text>
+            // Navigation arrows
+            navigation: {
+                nextEl: '@Model.NavigationNextCssSelector',
+                prevEl: '@Model.NavigationPrevCssSelector',
+            },
+            </text>
+        }
 
-        // And if we need scrollbar
-        scrollbar: {
-            el: '@Model.ScrollBarCssSelector',
-        },
+
+        @if(Model.ScrollBarEnabled)
+        {
+            <text>
+            // And if we need scrollbar
+            scrollbar: {
+                el: '@Model.ScrollBarCssSelector',
+            },
+            </text>
+        }
     })
 </script>
