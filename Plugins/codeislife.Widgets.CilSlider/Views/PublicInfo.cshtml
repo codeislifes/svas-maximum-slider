@@ -1,4 +1,5 @@
-﻿@{
+﻿@model CilSliderSettings
+@{
     Html.AppendScriptParts("~/Plugins/codeislife.Widgets.CilSlider/Content/lib/swiper/swiper-bundle.js");
 
     Html.AppendCssFileParts("~/Plugins/codeislife.Widgets.CilSlider/Content/css/style.css");
@@ -17,28 +18,26 @@
     <div class="swiper-scrollbar"></div>
 </div>
 
-
-
 <script type="text/javascript">
-    var mySwiper = new Swiper('.swiper-container', {
+    var mySwiper = new Swiper('@Model.ContainerCssSelector', {
         // Optional parameters
-        direction: 'horizontal',
+        direction: '@Model.Direction.ToString().ToLower()',
         loop: true,
 
         // If we need pagination
         pagination: {
-            el: '.swiper-pagination',
+            el: '@Model.PaginationCssSelector',
         },
 
         // Navigation arrows
         navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
+            nextEl: '@Model.NavigationNextCssSelector',
+            prevEl: '@Model.NavigationPrevCssSelector',
         },
 
         // And if we need scrollbar
         scrollbar: {
-            el: '.swiper-scrollbar',
+            el: '@Model.ScrollBarCssSelector',
         },
     })
 </script>
