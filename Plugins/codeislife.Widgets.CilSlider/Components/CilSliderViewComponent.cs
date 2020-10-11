@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Nop.Services.Configuration;
 using Nop.Web.Framework.Components;
 
 namespace codeislife.Widgets.CilSlider.Components

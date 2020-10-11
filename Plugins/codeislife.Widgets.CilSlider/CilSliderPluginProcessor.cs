@@ -1,4 +1,5 @@
-﻿using Nop.Services.Cms;
+﻿using Nop.Core;
+using Nop.Services.Cms;
 using Nop.Services.Configuration;
 using Nop.Services.Plugins;
 using Nop.Web.Framework.Infrastructure;
@@ -9,12 +10,16 @@ namespace codeislife.Widgets.CilSlider
     public class CilSliderPluginProcessor : BasePlugin, IWidgetPlugin
     {
         #region Fields
+        private readonly IWebHelper _webHelper;
         private readonly ISettingService _settingService;
         #endregion
 
         #region Ctor
-        public CilSliderPluginProcessor(ISettingService settingService)
+        public CilSliderPluginProcessor(
+            IWebHelper webHelper,
+            ISettingService settingService)
         {
+            _webHelper = webHelper;
             _settingService = settingService;
         }
         #endregion
@@ -32,7 +37,11 @@ namespace codeislife.Widgets.CilSlider
                 ScrollBarCssSelector = ".swiper-scrollbar",
                 Direction = Direction.Horizontal,
                 InitialSlide = 0,
-                Speed = 300
+                Speed = 300,
+                Loop = true,
+                NavigationEnabled = true,
+                PaginationEnabled = true,
+                ScrollBarEnabled = false
             };
 
             _settingService.SaveSetting(settings);
@@ -47,6 +56,11 @@ namespace codeislife.Widgets.CilSlider
         public override void PreparePluginToUninstall()
         {
             base.PreparePluginToUninstall();
+        }
+
+        public override string GetConfigurationPageUrl()
+        {
+            return $"{_webHelper.GetStoreLocation()}Admin/CilSlider/Configure";
         }
         #endregion
 

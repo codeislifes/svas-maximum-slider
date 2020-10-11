@@ -1,0 +1,129 @@
+﻿@model CilSliderConfigureModel
+
+@{ 
+    Layout = "_ConfigurePlugin";
+}
+
+<form asp-controller="CilSlider" asp-action="Configure" method="post">
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @*<nop-override-store-checkbox asp-for="Picture1Id_OverrideForStore" asp-input="Picture1Id" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />*@
+                        <nop-label asp-for="ContainerCssSelector" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="ContainerCssSelector" />
+                        <span asp-validation-for="ContainerCssSelector"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @*<nop-override-store-checkbox asp-for="Picture1Id_OverrideForStore" asp-input="Picture1Id" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />*@
+                        <nop-label asp-for="PaginationCssSelector" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PaginationCssSelector" />
+                        <span asp-validation-for="PaginationCssSelector"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @*<nop-override-store-checkbox asp-for="Picture1Id_OverrideForStore" asp-input="Picture1Id" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />*@
+                        <nop-label asp-for="NavigationNextCssSelector" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="NavigationNextCssSelector" />
+                        <span asp-validation-for="NavigationNextCssSelector"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @*<nop-override-store-checkbox asp-for="Picture1Id_OverrideForStore" asp-input="Picture1Id" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />*@
+                        <nop-label asp-for="NavigationPrevCssSelector" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="NavigationPrevCssSelector" />
+                        <span asp-validation-for="NavigationPrevCssSelector"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @*<nop-override-store-checkbox asp-for="Picture1Id_OverrideForStore" asp-input="Picture1Id" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />*@
+                        <nop-label asp-for="ScrollBarCssSelector" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="ScrollBarCssSelector" />
+                        <span asp-validation-for="ScrollBarCssSelector"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @*<nop-override-store-checkbox asp-for="Picture1Id_OverrideForStore" asp-input="Picture1Id" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />*@
+                        <nop-label asp-for="InitialSlide" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="InitialSlide" />
+                        <span asp-validation-for="InitialSlide"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @*<nop-override-store-checkbox asp-for="Picture1Id_OverrideForStore" asp-input="Picture1Id" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />*@
+                        <nop-label asp-for="Speed" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Speed" />
+                        <span asp-validation-for="Speed"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @*<nop-override-store-checkbox asp-for="Picture1Id_OverrideForStore" asp-input="Picture1Id" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />*@
+                        <nop-label asp-for="Loop" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Loop" />
+                        <span asp-validation-for="Loop"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @*<nop-override-store-checkbox asp-for="Picture1Id_OverrideForStore" asp-input="Picture1Id" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />*@
+                        <nop-label asp-for="PaginationEnabled" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PaginationEnabled" />
+                        <span asp-validation-for="PaginationEnabled"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @*<nop-override-store-checkbox asp-for="Picture1Id_OverrideForStore" asp-input="Picture1Id" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />*@
+                        <nop-label asp-for="NavigationEnabled" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="NavigationEnabled" />
+                        <span asp-validation-for="NavigationEnabled"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @*<nop-override-store-checkbox asp-for="Picture1Id_OverrideForStore" asp-input="Picture1Id" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />*@
+                        <nop-label asp-for="ScrollBarEnabled" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="ScrollBarEnabled" />
+                        <span asp-validation-for="ScrollBarEnabled"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-9 col-md-offset-3">
+                        <input type="submit" name="save" class="btn bg-blue" value="@T("Admin.Common.Save")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
