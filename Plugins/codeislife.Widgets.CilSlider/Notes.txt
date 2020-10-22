@@ -1,0 +1,18 @@
+﻿centeredSlides: true,
+dynamicBullets: true,
+pagination: {
+    el: '.swiper-pagination',
+    clickable: true, // Burası pagination clicklenebilir olmasını sağlar.
+},
+freeMode: true,
+
+slidesPerColumn: 2,
+slidesPerView: 3, | 'auto'
+spaceBetween: 30,
+slidesPerGroup: 3,
+loop: true,
+loopFillGroupWithBlank: true,
+autoplay: {
+    delay: 2500,
+    disableOnInteraction: false,
+},

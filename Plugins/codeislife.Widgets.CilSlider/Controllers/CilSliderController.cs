@@ -49,9 +49,21 @@ namespace codeislife.Widgets.CilSlider.Controllers
                 InitialSlide = _cilSliderSettings.InitialSlide,
                 Speed = _cilSliderSettings.Speed,
                 Loop = _cilSliderSettings.Loop,
+                LoopFillGroupWithBlankEnabled = _cilSliderSettings.LoopFillGroupWithBlankEnabled,
                 PaginationEnabled = _cilSliderSettings.PaginationEnabled,
+                PaginationClickableEnabled = _cilSliderSettings.PaginationClickableEnabled,
                 NavigationEnabled = _cilSliderSettings.NavigationEnabled,
                 ScrollBarEnabled = _cilSliderSettings.ScrollBarEnabled,
+
+                AutoPlayEnabled = _cilSliderSettings.AutoPlayEnabled,
+                AutoPlayDelay = _cilSliderSettings.AutoPlayDelay,
+                AutoPlayDisableOnInteraction = _cilSliderSettings.AutoPlayDisableOnInteraction,
+                SlidesPerGroup = _cilSliderSettings.SlidesPerGroup,
+                SpaceBetween = _cilSliderSettings.SpaceBetween,
+                SlidesPerView = _cilSliderSettings.SlidesPerView,
+                FreeModeEnabled = _cilSliderSettings.FreeModeEnabled,
+                DynamicBulletsEnabled = _cilSliderSettings.DynamicBulletsEnabled,
+                CenteredSlidesEnabled = _cilSliderSettings.CenteredSlidesEnabled
             };
             return View("~/Plugins/codeislife.Widgets.CilSlider/Views/Configure.cshtml", model);
         }
@@ -68,9 +80,20 @@ namespace codeislife.Widgets.CilSlider.Controllers
             _cilSliderSettings.InitialSlide = model.InitialSlide;
             _cilSliderSettings.Speed = model.Speed;
             _cilSliderSettings.Loop = model.Loop;
+            _cilSliderSettings.LoopFillGroupWithBlankEnabled = model.LoopFillGroupWithBlankEnabled;
             _cilSliderSettings.PaginationEnabled = model.PaginationEnabled;
+            _cilSliderSettings.PaginationClickableEnabled = model.PaginationClickableEnabled;
             _cilSliderSettings.NavigationEnabled = model.NavigationEnabled;
             _cilSliderSettings.ScrollBarEnabled = model.ScrollBarEnabled;
+            _cilSliderSettings.AutoPlayEnabled = model.AutoPlayEnabled;
+            _cilSliderSettings.AutoPlayDelay = model.AutoPlayDelay;
+            _cilSliderSettings.AutoPlayDisableOnInteraction = model.AutoPlayDisableOnInteraction;
+            _cilSliderSettings.SlidesPerGroup = model.SlidesPerGroup;
+            _cilSliderSettings.SpaceBetween = model.SpaceBetween;
+            _cilSliderSettings.SlidesPerView = model.SlidesPerView;
+            _cilSliderSettings.FreeModeEnabled = model.FreeModeEnabled;
+            _cilSliderSettings.DynamicBulletsEnabled = model.DynamicBulletsEnabled;
+            _cilSliderSettings.CenteredSlidesEnabled = model.CenteredSlidesEnabled;
 
             _settingService.SaveSetting(_cilSliderSettings);
             _settingService.ClearCache();
