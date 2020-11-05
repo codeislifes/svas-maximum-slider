@@ -81,5 +81,8 @@ namespace codeislife.Widgets.CilSlider.Models
 
         [NopResourceDisplayName("codeislife.Widgets.CilSlider.Models.CenteredSlidesEnabled")]
         public bool CenteredSlidesEnabled { get; set; }
+
+        [NopResourceDisplayName("codeislife.Widgets.CilSlider.Models.CustomCss")]
+        public string CustomCss { get; set; }
     }
 }

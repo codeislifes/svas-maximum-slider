@@ -1,11 +1,15 @@
 ﻿@model CilSliderSettings
 @{
     Html.AppendScriptParts("~/Plugins/codeislife.Widgets.CilSlider/Content/lib/swiper/swiper-bundle.js");
-
-    Html.AppendCssFileParts("~/Plugins/codeislife.Widgets.CilSlider/Content/css/style.css");
     Html.AppendCssFileParts("~/Plugins/codeislife.Widgets.CilSlider/Content/lib/swiper/swiper-bundle.css");
 }
 
+@if (!string.IsNullOrEmpty(Model.CustomCss))
+{
+    <style type="text/css">
+        @Model.CustomCss
+    </style>
+}
 <div class="swiper-container">
     <div class="swiper-wrapper">
         <div class="swiper-slide">Slide 1</div>
@@ -31,9 +35,16 @@
 
 <script type="text/javascript">
     var mySwiper = new Swiper('@Model.ContainerCssSelector', {
-        // Optional parameters
         direction: '@Model.Direction.ToString().ToLower()',
+        freeMode: @Model.FreeModeEnabled.ToString().ToLower(),
+        centeredSlides: @Model.CenteredSlidesEnabled.ToString().ToLower(),
         loop: @Model.Loop.ToString().ToLower(),
+        @if(Model.Loop)
+        {
+            <text>
+                loopFillGroupWithBlank: @Model.LoopFillGroupWithBlankEnabled.ToString().ToLower(),
+            </text>
+        }
         speed: @Model.Speed,
         @if(Model.PaginationEnabled)
         {
@@ -41,10 +52,11 @@
             // If we need pagination
             pagination: {
                 el: '@Model.PaginationCssSelector',
+                clickable: @Model.PaginationClickableEnabled.ToString().ToLower(),
+                dynamicBullets: @Model.DynamicBulletsEnabled.ToString().ToLower()
             },
             </text>
         }
-
 
         @if(Model.NavigationEnabled)
         {
@@ -67,5 +79,43 @@
             },
             </text>
         }
+
+        @if(Model.AutoPlayEnabled)
+        {
+            <text>
+                autoplay: {
+                    delay: @Model.AutoPlayDelay,
+                    disableOnInteraction: @Model.AutoPlayDisableOnInteraction.ToString().ToLower()
+                },
+            </text>
+        }
+
+        @if(!string.IsNullOrEmpty(Model.SlidesPerView))
+        {
+            if(Int32.TryParse(Model.SlidesPerView, out var slidePerView))
+            {
+                var spw = slidePerView;
+                <text>
+                    slidesPerView: @spw,
+                    slidesPerGroup: @Model.SlidesPerGroup,
+                </text>
+            }
+            else
+            {
+                <text>
+                    slidesPerView: 'auto',
+                </text>
+            }
+
+        }
+
+        @if(Model.SpaceBetween > 0)
+        {
+            <text>
+                spaceBetween: @Model.SpaceBetween,
+            </text>
+        }
+
+
     })
 </script>

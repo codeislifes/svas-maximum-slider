@@ -16,3 +16,6 @@ autoplay: {
     delay: 2500,
     disableOnInteraction: false,
 },
+
+
+//INameCompability anlat, unutma!

@@ -1,11 +1,23 @@
 ﻿using codeislife.Widgets.CilSlider.Models;
+using codeislife.Widgets.CilSlider.Services;
+using iTextSharp.text;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Nop.Core.Domain.Catalog;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
 using Nop.Services.Messages;
+using Nop.Web.Areas.Admin.Factories;
+using Nop.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
+using Nop.Web.Framework.Extensions;
+using Nop.Web.Framework.Models.Extensions;
+using NUglify.Helpers;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace codeislife.Widgets.CilSlider.Controllers
 {
@@ -14,23 +26,32 @@ namespace codeislife.Widgets.CilSlider.Controllers
     public class CilSliderController : BasePluginController
     {
         #region Fields
+        private readonly ISliderService _sliderService;
         private readonly ISettingService _settingService;
+        private readonly CatalogSettings _catalogSettings;
         private readonly CilSliderSettings _cilSliderSettings;
         private readonly INotificationService _notificationService;
         private readonly ILocalizationService _localizationService;
+        private readonly IBaseAdminModelFactory _baseAdminModelFactory;
         #endregion
 
         #region Ctor
         public CilSliderController(
+            ISliderService sliderService,
             ISettingService settingService,
+            CatalogSettings catalogSettings,
             CilSliderSettings cilSliderSettings,
             INotificationService notificationService,
-            ILocalizationService localizationService)
+            ILocalizationService localizationService,
+            IBaseAdminModelFactory baseAdminModelFactory)
         {
+            _sliderService = sliderService;
             _settingService = settingService;
+            _catalogSettings = catalogSettings;
             _cilSliderSettings = cilSliderSettings;
             _notificationService = notificationService;
             _localizationService = localizationService;
+            _baseAdminModelFactory = baseAdminModelFactory;
         }
         #endregion
 
@@ -63,7 +84,8 @@ namespace codeislife.Widgets.CilSlider.Controllers
                 SlidesPerView = _cilSliderSettings.SlidesPerView,
                 FreeModeEnabled = _cilSliderSettings.FreeModeEnabled,
                 DynamicBulletsEnabled = _cilSliderSettings.DynamicBulletsEnabled,
-                CenteredSlidesEnabled = _cilSliderSettings.CenteredSlidesEnabled
+                CenteredSlidesEnabled = _cilSliderSettings.CenteredSlidesEnabled,
+                CustomCss = _cilSliderSettings.CustomCss
             };
             return View("~/Plugins/codeislife.Widgets.CilSlider/Views/Configure.cshtml", model);
         }
@@ -94,6 +116,7 @@ namespace codeislife.Widgets.CilSlider.Controllers
             _cilSliderSettings.FreeModeEnabled = model.FreeModeEnabled;
             _cilSliderSettings.DynamicBulletsEnabled = model.DynamicBulletsEnabled;
             _cilSliderSettings.CenteredSlidesEnabled = model.CenteredSlidesEnabled;
+            _cilSliderSettings.CustomCss = model.CustomCss;
 
             _settingService.SaveSetting(_cilSliderSettings);
             _settingService.ClearCache();
@@ -103,6 +126,60 @@ namespace codeislife.Widgets.CilSlider.Controllers
 
             return Configure();
         }
+        #endregion
+
+        #region Crud
+        public IActionResult SliderList()
+        {
+            var searchModel = new SliderSearchModel();
+            
+            _baseAdminModelFactory.PrepareStores(searchModel.AvailableStores);
+            searchModel.HideStoresList = _catalogSettings.IgnoreStoreLimitations || searchModel.AvailableStores.SelectionIsNotPossible();
+            
+            //prepare "published" filter (0 - all; 1 - published only; 2 - unpublished only)
+            searchModel.AvailablePublishedOptions.Add(new SelectListItem
+            {
+                Value = "0",
+                Text = _localizationService.GetResource("Admin.Catalog.Categories.List.SearchPublished.All")
+            });
+            searchModel.AvailablePublishedOptions.Add(new SelectListItem
+            {
+                Value = "1",
+                Text = _localizationService.GetResource("Admin.Catalog.Categories.List.SearchPublished.PublishedOnly")
+            });
+            searchModel.AvailablePublishedOptions.Add(new SelectListItem
+            {
+                Value = "2",
+                Text = _localizationService.GetResource("Admin.Catalog.Categories.List.SearchPublished.UnpublishedOnly")
+            });
+
+            searchModel.SetGridPageSize();
+
+            return View("~/Plugins/codeislife.Widgets.CilSlider/Views/SliderList.cshtml", searchModel);
+        }
+
+
+        [HttpPost]
+        public IActionResult SliderList(SliderSearchModel searchModel)
+        {
+            var sliders = _sliderService
+                .GetAllSliders(
+                name: searchModel.SearchSliderName,
+                storeId: searchModel.SearchStoreId,
+                pageIndex: (searchModel.Page - 1),
+                pageSize: searchModel.PageSize,
+                showHidden: true,
+                overridePublished: (searchModel.SearchPublishedId == 0 ? null : (bool?)(searchModel.SearchPublishedId == 1)));
+
+            var model = new SliderListModel().PrepareToGrid(searchModel, sliders, () => {
+                return sliders.Select(slider => {
+                    return slider.ToModel<SliderModel>();
+                });
+            });
+
+            return Json(model);
+        }
+
         #endregion
     }
 }

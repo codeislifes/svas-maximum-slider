@@ -60,9 +60,25 @@ namespace codeislife.Widgets.CilSlider
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.InitialSlide", "Initial Slide");
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.Speed", "Speed");
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.Loop", "Loop");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.LoopFillGroupWithBlankEnabled", "Loop Fill Group With Blank Enabled");
+            
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.PaginationEnabled", "Pagination Enabled");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.PaginationClickableEnabled", "Pagination Clickable Enabled");
+
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.NavigationEnabled", "Navigation Enabled");
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.ScrollBarEnabled", "Scroll Bar Enabled");
+
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.AutoPlayEnabled", "Auto Play Enabled");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.AutoPlayDelay", "Auto Play Delay");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.AutoPlayDisableOnInteraction", "Auto Play Disable On Interaction");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.SlidesPerGroup", "Slides Per Group");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.SpaceBetween", "Space Between");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.SlidesPerView", "Slides Per View");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.SlidesPerColumn", "Slides Per Column");
+
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.FreeModeEnabled", "Free Mode Enabled");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.DynamicBulletsEnabled", "Dynamic Bullets Enabled");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.CenteredSlidesEnabled", "Centered Slides Enabled");
         }
 
         public override void Uninstall()

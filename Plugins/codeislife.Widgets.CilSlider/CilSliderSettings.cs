@@ -38,5 +38,7 @@ namespace codeislife.Widgets.CilSlider
         public bool FreeModeEnabled { get; set; }
         public bool DynamicBulletsEnabled { get; set; }
         public bool CenteredSlidesEnabled { get; set; }
+
+        public string CustomCss { get; set; }
     }
 }
