@@ -2,7 +2,6 @@
 using codeislife.Widgets.CilSlider.Data.Domain;
 using codeislife.Widgets.CilSlider.Models;
 using Nop.Core.Infrastructure.Mapper;
-using System;
 
 namespace codeislife.Widgets.CilSlider.Infrastructure
 {
@@ -18,7 +17,7 @@ namespace codeislife.Widgets.CilSlider.Infrastructure
             CreateMap<Slider, SliderModel>().ReverseMap();
         }
 
-        public int Order => Int16.MaxValue;
+        public int Order => int.MaxValue;
 
     }
 }

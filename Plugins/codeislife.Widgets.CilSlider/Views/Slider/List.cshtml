@@ -1,8 +1,24 @@
 ﻿@model SliderSearchModel
 
 @{ 
-    ViewBag.PageTitle = T("codeislife.Widgets.CilSlider.Sliders.PageTitle").Text;
+    ViewBag.PageTitle = T("codeislife.Widgets.CilSlider.Sliders").Text;
 }
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        @T("codeislife.Widgets.CilSlider.Sliders")
+    </h1>
+    <div class="pull-right">
+        <a asp-action="Create" class="btn bg-blue">
+            <i class="fa fa-plus-square"></i>
+            @T("Admin.Common.AddNew")
+        </a>
+        <button type="button" id="delete-selected" class="btn bg-red">
+            <i class="fa fa-trash-o"></i>
+            @T("Admin.Common.Delete.Selected")
+        </button>
+        <nop-action-confirmation asp-button-id="delete-selected" />
+    </div>
+</div>
 
 <div class="content">
     <div class="form-horizontal">
@@ -12,7 +28,7 @@
                     @await Html.PartialAsync("Table", new DataTablesModel
                     {
                         Name = "sliders-grid",
-                        UrlRead = new DataUrl("SliderList", "CilSlider", null),
+                        UrlRead = new DataUrl("List", "CilSlider", null),
                         SearchButtonId = "search-sliders",
                         Length = Model.PageSize,
                         LengthMenu = Model.AvailablePageSizes,

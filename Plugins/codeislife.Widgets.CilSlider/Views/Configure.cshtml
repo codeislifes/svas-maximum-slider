@@ -49,7 +49,7 @@
 
 <div class="content-header clearfix">
     <div class="pull-right">
-        <a asp-action="SliderList" class="btn bg-blue">
+        <a asp-action="List" class="btn bg-blue">
             <i class="fa fa-plus-square"></i>
             @T("codeislife.Widgets.CilSlider.Configuration.SliderList")
         </a>
@@ -57,10 +57,8 @@
 </div>
 
 <nop-panels id="category-panels">
-    <nop-panel asp-name="configure-info" asp-icon="fa fa-info" asp-title="@T("codeislife.Widgets.CilSlider.Configuration.Title")" asp-hide-block-attribute-name="@hideConfigureBlockAttributeName" asp-hide="@hideConfigureBlock" asp-advanced="false">
-
-
-
+    <nop-panel asp-name="configure-info" asp-icon="fa fa-info" asp-title="@T("codeislife.Widgets.CilSlider.Configuration.Title")" 
+               asp-hide-block-attribute-name="@hideConfigureBlockAttributeName" asp-hide="@hideConfigureBlock" asp-advanced="false">
         <form asp-controller="CilSlider" asp-action="Configure" method="post">
             <div class="panel-group">
                 <div class="panel panel-default">

@@ -1,5 +1,5 @@
 ﻿{
-  "DataConnectionString": "Data Source=.\\SQLEXPRESS;Initial Catalog=codeislife_youtube;Integrated Security=True;Persist Security Info=False",
+  "DataConnectionString": "Data Source=(localdb)\\DEV;Initial Catalog=nopcommerce_430;Integrated Security=True;Persist Security Info=False",
   "DataProvider": "sqlserver",
   "RawDataSettings": {}
 }

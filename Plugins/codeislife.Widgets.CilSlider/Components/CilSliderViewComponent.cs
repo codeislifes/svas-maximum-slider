@@ -10,14 +10,12 @@ namespace codeislife.Widgets.CilSlider.Components
         private readonly CilSliderSettings _cilSliderSettings;
         #endregion
 
-
         #region Ctor
         public CilSliderViewComponent(CilSliderSettings cilSliderSettings)
         {
             _cilSliderSettings = cilSliderSettings;
         }
         #endregion
-
 
         public IViewComponentResult Invoke(string widgetZone, object additionalData)
         {

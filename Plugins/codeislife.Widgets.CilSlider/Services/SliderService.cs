@@ -47,7 +47,13 @@ namespace codeislife.Widgets.CilSlider.Services
         #endregion
 
         #region Slider
-        public IPagedList<Slider> GetAllSliders(string name, int storeId = 0, int pageIndex = 0, int pageSize = int.MaxValue, bool showHidden = false, bool? overridePublished = null)
+        public IPagedList<Slider> GetAllSliders(
+            string name, 
+            int storeId = 0, 
+            int pageIndex = 0, 
+            int pageSize = int.MaxValue, 
+            bool showHidden = false, 
+            bool? overridePublished = null)
         {
             var query = _sliderRepository.Table;
 
@@ -58,7 +64,6 @@ namespace codeislife.Widgets.CilSlider.Services
                 query = query.Where(s => s.Name.Contains(name));
 
             query = query.OrderBy(p => p.DisplayOrder).ThenBy(p => p.Id);
-
 
             if ((storeId > 0 && !_catalogSettings.IgnoreStoreLimitations) || (!showHidden && !_catalogSettings.IgnoreAcl))
             {
@@ -110,7 +115,6 @@ namespace codeislife.Widgets.CilSlider.Services
         }
         #endregion
 
-
         #region SliderItem
         public IList<SliderItem> GetAllSliderItemsBySliderId(int sliderId)
         {
@@ -137,6 +141,5 @@ namespace codeislife.Widgets.CilSlider.Services
             throw new System.NotImplementedException();
         }
         #endregion
-
     }
 }

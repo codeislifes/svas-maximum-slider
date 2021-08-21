@@ -4,6 +4,10 @@
   ],
   "InstalledPlugins": [
     {
+      "SystemName": "Widgets.NivoSlider",
+      "Version": "1.38"
+    },
+    {
       "SystemName": "DiscountRequirement.MustBeAssignedToCustomerRole",
       "Version": "1.34"
     },
@@ -62,10 +66,6 @@
     {
       "SystemName": "Widgets.GoogleAnalytics",
       "Version": "1.62"
-    },
-    {
-      "SystemName": "Widgets.NivoSlider",
-      "Version": "1.38"
     },
     {
       "SystemName": "ExternalAuth.Facebook",

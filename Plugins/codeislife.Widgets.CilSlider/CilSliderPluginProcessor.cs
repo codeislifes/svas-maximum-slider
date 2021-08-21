@@ -79,6 +79,14 @@ namespace codeislife.Widgets.CilSlider
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.FreeModeEnabled", "Free Mode Enabled");
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.DynamicBulletsEnabled", "Dynamic Bullets Enabled");
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.CenteredSlidesEnabled", "Centered Slides Enabled");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.CustomCss", "Custom Css");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Configuration.SliderList", "Slider List");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.widgets.cilslider.configuration.title", "Configuration");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Sliders", "Sliders");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Sliders.AddNew", "Add a New Slider");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Sliders.BackToList", "back to list");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Sliders.Info", "Info");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Sliders.Mappings", "Mappings");
         }
 
         public override void Uninstall()
@@ -98,7 +106,6 @@ namespace codeislife.Widgets.CilSlider
         }
         #endregion
 
-
         #region IWidgetPlugin
         public IList<string> GetWidgetZones()
         {
@@ -112,6 +119,5 @@ namespace codeislife.Widgets.CilSlider
 
         public bool HideInWidgetList => false;
         #endregion
-
     }
 }

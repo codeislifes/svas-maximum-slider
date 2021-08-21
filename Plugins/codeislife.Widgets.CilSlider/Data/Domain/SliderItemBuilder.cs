@@ -8,8 +8,7 @@ namespace codeislife.Widgets.CilSlider.Data.Domain
     {
         public override void MapEntity(CreateTableExpressionBuilder table)
         {
-            table
-                .WithColumn(nameof(SliderItem.SliderId)).AsInt32().ForeignKey<Slider>();
+            table.WithColumn(nameof(SliderItem.SliderId)).AsInt32().ForeignKey<Slider>();
         }
     }
 }
