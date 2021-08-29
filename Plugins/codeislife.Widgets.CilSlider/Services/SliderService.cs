@@ -48,11 +48,11 @@ namespace codeislife.Widgets.CilSlider.Services
 
         #region Slider
         public IPagedList<Slider> GetAllSliders(
-            string name, 
-            int storeId = 0, 
-            int pageIndex = 0, 
-            int pageSize = int.MaxValue, 
-            bool showHidden = false, 
+            string name,
+            int storeId = 0,
+            int pageIndex = 0,
+            int pageSize = int.MaxValue,
+            bool showHidden = false,
             bool? overridePublished = null)
         {
             var query = _sliderRepository.Table;
@@ -70,10 +70,21 @@ namespace codeislife.Widgets.CilSlider.Services
                 if (!showHidden && !_catalogSettings.IgnoreAcl)
                 {
                     //ACL (access control list)
+                    // TODO : Mehmet -> Burayı açıkla.
                     var allowedCustomerRolesIds = _customerService.GetCustomerRoleIds(_workContext.CurrentCustomer);
                     query = from c in query
                             join acl in _aclRepository.Table
-                                on new { c1 = c.Id, c2 = nameof(Slider) } equals new { c1 = acl.EntityId, c2 = acl.EntityName } into c_acl
+                                on new
+                                {
+                                    c1 = c.Id,
+                                    c2 = nameof(Slider)
+                                }
+                                equals
+                                new
+                                {
+                                    c1 = acl.EntityId,
+                                    c2 = acl.EntityName
+                                } into c_acl
                             from acl in c_acl.DefaultIfEmpty()
                             where !c.SubjectToAcl || allowedCustomerRolesIds.Contains(acl.CustomerRoleId)
                             select c;
@@ -82,9 +93,20 @@ namespace codeislife.Widgets.CilSlider.Services
                 if (storeId > 0 && !_catalogSettings.IgnoreStoreLimitations)
                 {
                     //Store mapping
+                    // TODO : Mehmet -> Burayı açıkla.
                     query = from c in query
                             join sm in _storeMappingRepository.Table
-                                on new { c1 = c.Id, c2 = nameof(Slider) } equals new { c1 = sm.EntityId, c2 = sm.EntityName } into c_sm
+                               on new
+                               {
+                                   c1 = c.Id,
+                                   c2 = nameof(Slider)
+                               }
+                                equals
+                                new
+                                {
+                                    c1 = sm.EntityId,
+                                    c2 = sm.EntityName
+                                } into c_sm
                             from sm in c_sm.DefaultIfEmpty()
                             where !c.LimitedToStores || storeId == sm.StoreId
                             select c;
@@ -96,22 +118,34 @@ namespace codeislife.Widgets.CilSlider.Services
 
         public Slider GetSliderById(int sliderId)
         {
-            throw new System.NotImplementedException();
+            return _sliderRepository.GetById(sliderId);
         }
 
         public void InsertSlider(Slider slider)
         {
-            throw new System.NotImplementedException();
+            _sliderRepository.Insert(slider);
         }
 
         public void UpdateSlider(Slider slider)
         {
-            throw new System.NotImplementedException();
+            _sliderRepository.Update(slider);
         }
 
         public void DeleteSlider(Slider slider)
         {
-            throw new System.NotImplementedException();
+            _sliderRepository.Delete(slider);
+        }
+        public void DeleteSlider(IList<Slider> sliders)
+        {
+            _sliderRepository.Delete(sliders);
+        }
+        public IList<Slider> GetSliderByIds(ICollection<int> sliderIds)
+        {
+            var query = _sliderRepository.Table;
+
+            query = query.Where(p => sliderIds.Contains(p.Id));
+
+            return query.ToList();
         }
         #endregion
 
@@ -140,6 +174,8 @@ namespace codeislife.Widgets.CilSlider.Services
         {
             throw new System.NotImplementedException();
         }
+
+     
         #endregion
     }
 }

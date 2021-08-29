@@ -7,11 +7,20 @@ namespace codeislife.Widgets.CilSlider.Services
     public interface ISliderService
     {
         #region Slider
-        IPagedList<Slider> GetAllSliders(string name, int storeId = 0, int pageIndex = 0, int pageSize = int.MaxValue, bool showHidden = false, bool? overridePublished = null);
+        IPagedList<Slider> GetAllSliders(string name, 
+            int storeId = 0, 
+            int pageIndex = 0, 
+            int pageSize = int.MaxValue, 
+            bool showHidden = false, 
+            bool? overridePublished = null);
+
         Slider GetSliderById(int sliderId);
+
+        IList<Slider> GetSliderByIds(ICollection<int> sliderIds);
         void InsertSlider(Slider slider);
         void UpdateSlider(Slider slider);
         void DeleteSlider(Slider slider);
+        void DeleteSlider(IList<Slider> sliders);
         #endregion
 
         #region Slider Items

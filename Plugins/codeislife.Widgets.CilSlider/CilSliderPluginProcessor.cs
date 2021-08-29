@@ -87,6 +87,11 @@ namespace codeislife.Widgets.CilSlider
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Sliders.BackToList", "back to list");
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Sliders.Info", "Info");
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Sliders.Mappings", "Mappings");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Sliders.Fields.Name", "Name");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Sliders.Fields.Published", "Published");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Sliders.Fields.DisplayOrder", "Display Order");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Sliders.Fields.AclCustomerRoles", "Customer Roles");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Sliders.Fields.LimitedToStores", "Limited To Stores");
         }
 
         public override void Uninstall()

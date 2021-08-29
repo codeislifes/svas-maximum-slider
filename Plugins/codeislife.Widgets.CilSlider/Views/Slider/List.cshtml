@@ -84,7 +84,7 @@
                                 $.ajax({
                                     cache: false,
                                     type: "POST",
-                                    url: "@(Url.Action("DeleteSelectedSlider", "CilSlider"))",
+                                    url: "@(Url.Action("DeleteSelected", "CilSlider"))",
                                     data: postData,
                                     error: function (jqXHR, textStatus, errorThrown) {
                                         $('#deleteSelectedFailed-info').text(errorThrown);

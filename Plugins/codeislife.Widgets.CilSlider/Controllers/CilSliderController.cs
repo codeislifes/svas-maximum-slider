@@ -1,61 +1,131 @@
-﻿using codeislife.Widgets.CilSlider.Factories;
+﻿using codeislife.Widgets.CilSlider.Data.Domain;
+using codeislife.Widgets.CilSlider.Factories;
 using codeislife.Widgets.CilSlider.Models;
 using codeislife.Widgets.CilSlider.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Core.Domain.Catalog;
 using Nop.Services.Configuration;
+using Nop.Services.Customers;
 using Nop.Services.Localization;
 using Nop.Services.Messages;
 using Nop.Services.Security;
+using Nop.Services.Stores;
 using Nop.Web.Areas.Admin.Factories;
 using Nop.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Extensions;
 using Nop.Web.Framework.Models.Extensions;
+using Nop.Web.Framework.Mvc.Filters;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace codeislife.Widgets.CilSlider.Controllers
 {
     [Area(AreaNames.Admin)]
+    [AuthorizeAdmin]
     [AutoValidateAntiforgeryToken]
     public class CilSliderController : BasePluginController
     {
         #region Fields
+        private readonly IAclService _aclService;
+        private readonly IStoreService _storeService;
         private readonly ISliderService _sliderService;
         private readonly ISettingService _settingService;
         private readonly CatalogSettings _catalogSettings;
+        private readonly ICustomerService _customerService;
         private readonly CilSliderSettings _cilSliderSettings;
         private readonly IPermissionService _permissionService;
         private readonly ISliderModelFactory _sliderModelFactory;
         private readonly INotificationService _notificationService;
         private readonly ILocalizationService _localizationService;
+        private readonly IStoreMappingService _storeMappingService;
         private readonly IBaseAdminModelFactory _baseAdminModelFactory;
         #endregion
 
         #region Ctor
         public CilSliderController(
+            IAclService aclService,
+            IStoreService storeService,
             ISliderService sliderService,
             ISettingService settingService,
             CatalogSettings catalogSettings,
+            ICustomerService customerService,
             CilSliderSettings cilSliderSettings,
             IPermissionService permissionService,
             ISliderModelFactory sliderModelFactory,
             INotificationService notificationService,
             ILocalizationService localizationService,
+            IStoreMappingService storeMappingService,
             IBaseAdminModelFactory baseAdminModelFactory)
         {
+            _aclService = aclService;
+            _storeService = storeService;
             _sliderService = sliderService;
             _settingService = settingService;
             _catalogSettings = catalogSettings;
+            _customerService = customerService;
             _cilSliderSettings = cilSliderSettings;
             _permissionService = permissionService;
             _sliderModelFactory = sliderModelFactory;
             _notificationService = notificationService;
             _localizationService = localizationService;
+            _storeMappingService = storeMappingService;
             _baseAdminModelFactory = baseAdminModelFactory;
+        }
+        #endregion
+
+        #region Utilities
+        protected virtual void SaveSliderAcl(Slider slider, SliderModel model)
+        {
+            slider.SubjectToAcl = model.SelectedCustomerRoleIds.Any();
+            _sliderService.UpdateSlider(slider);
+
+            var existingAclRecords = _aclService.GetAclRecords(slider);
+            var allCustomerRoles = _customerService.GetAllCustomerRoles(true);
+            foreach (var customerRole in allCustomerRoles)
+            {
+                if (model.SelectedCustomerRoleIds.Contains(customerRole.Id))
+                {
+                    //new role
+                    if (existingAclRecords.Count(acl => acl.CustomerRoleId == customerRole.Id) == 0)
+                        _aclService.InsertAclRecord(slider, customerRole.Id);
+                }
+                else
+                {
+                    //remove role
+                    var aclRecordToDelete = existingAclRecords.FirstOrDefault(acl => acl.CustomerRoleId == customerRole.Id);
+                    if (aclRecordToDelete != null)
+                        _aclService.DeleteAclRecord(aclRecordToDelete);
+                }
+            }
+        }
+
+        protected virtual void SaveSliderStoreMappings(Slider slider, SliderModel model)
+        {
+            slider.LimitedToStores = model.SelectedStoreIds.Any();
+            _sliderService.UpdateSlider(slider);
+
+            var existingStoreMappings = _storeMappingService.GetStoreMappings(slider);
+            var allStores = _storeService.GetAllStores();
+            foreach (var store in allStores)
+            {
+                if (model.SelectedStoreIds.Contains(store.Id))
+                {
+                    //new store
+                    if (existingStoreMappings.Count(sm => sm.StoreId == store.Id) == 0)
+                        _storeMappingService.InsertStoreMapping(slider, store.Id);
+                }
+                else
+                {
+                    //remove store
+                    var storeMappingToDelete = existingStoreMappings.FirstOrDefault(sm => sm.StoreId == store.Id);
+                    if (storeMappingToDelete != null)
+                        _storeMappingService.DeleteStoreMapping(storeMappingToDelete);
+                }
+            }
         }
         #endregion
 
@@ -189,12 +259,46 @@ namespace codeislife.Widgets.CilSlider.Controllers
         #region Create
         public virtual IActionResult Create()
         {
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageSettings))
                 return AccessDeniedView();
 
             var model = _sliderModelFactory.PrepareSliderModel(new SliderModel(), null);
 
             return View("~/Plugins/codeislife.Widgets.CilSlider/Views/Slider/Create.cshtml", model);
+        }
+
+        [HttpPost]
+        public virtual IActionResult Create(SliderModel model)
+        {
+            var entity = model.ToEntity<Slider>();
+            _sliderService.InsertSlider(entity);
+
+            SaveSliderAcl(entity, model);
+
+            SaveSliderStoreMappings(entity, model);
+
+            if (entity.Id > 0)
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Categories.Added"));
+            else
+                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Catalog.Categories.NotAdded"));
+
+            return List();
+        }
+
+        [HttpPost]
+        public virtual IActionResult DeleteSelected(ICollection<int> selectedIds)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageSettings))
+                return AccessDeniedView();
+
+            if (selectedIds != null)
+            {
+                var sliders = _sliderService.GetSliderByIds(selectedIds);
+                _sliderService.DeleteSlider(sliders);
+            }
+
+            return Json(new { Result = true });
+
         }
         #endregion
     }
