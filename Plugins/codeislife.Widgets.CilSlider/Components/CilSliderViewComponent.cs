@@ -19,7 +19,7 @@ namespace codeislife.Widgets.CilSlider.Components
 
         public IViewComponentResult Invoke(string widgetZone, object additionalData)
         {
-            return View("~/Plugins/codeislife.Widgets.CilSlider/Views/PublicInfo.cshtml", _cilSliderSettings);
+            return View(_cilSliderSettings);
         }
     }
 }

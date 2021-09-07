@@ -39,10 +39,22 @@
 		<None Update="plugin.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="Themes\cil\Views\Shared\Components\CilSlider\Default.cshtml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Themes\cil\Views\_ViewImports.cshtml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Themes\DefaultClean\Views\Shared\Components\CilSlider\Default.cshtml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Themes\DefaultClean\Views\_ViewImports.cshtml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="Views\Configure.cshtml">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Views\PublicInfo.cshtml">
+		<None Update="Views\Shared\Components\CilSlider\Default.cshtml">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Views\Slider\_CreateOrUpdate.Mappings.cshtml">

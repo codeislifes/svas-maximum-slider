@@ -1,15 +1,12 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using codeislife.Widgets.CilSlider.Models;
+using codeislife.Widgets.CilSlider.Validators;
+using FluentValidation;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nop.Core.Infrastructure;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using FluentValidation;
-using codeislife.Widgets.CilSlider.Models;
-using codeislife.Widgets.CilSlider.Validators;
 
 namespace codeislife.Widgets.CilSlider.Infrastructure
 {
@@ -23,6 +20,11 @@ namespace codeislife.Widgets.CilSlider.Infrastructure
 
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<RazorViewEngineOptions>(options =>
+            {
+                options.ViewLocationExpanders.Add(new SliderViewLocationExpander());
+            });
+
             services.AddTransient<IValidator<SliderModel>, SliderValidator>();
         }
     }

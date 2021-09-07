@@ -1,0 +1,121 @@
+﻿@model CilSliderSettings
+@{
+    Html.AppendScriptParts("~/Plugins/codeislife.Widgets.CilSlider/Content/lib/swiper/swiper-bundle.js");
+    Html.AppendCssFileParts("~/Plugins/codeislife.Widgets.CilSlider/Content/lib/swiper/swiper-bundle.css");
+}
+
+@if (!string.IsNullOrEmpty(Model.CustomCss))
+{
+    <style type="text/css">
+        @Model.CustomCss
+    </style>
+}
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">DefaultClean 1</div>
+        <div class="swiper-slide">DefaultClean 2</div>
+        <div class="swiper-slide">DefaultClean 3</div>
+    </div>
+    @if (Model.PaginationEnabled)
+    {
+        <div class="swiper-pagination"></div>
+    }
+
+    @if (Model.NavigationEnabled)
+    {
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    }
+
+    @if (Model.ScrollBarEnabled)
+    {
+        <div class="swiper-scrollbar"></div>
+    }
+</div>
+
+<script type="text/javascript">
+    var mySwiper = new Swiper('@Model.ContainerCssSelector', {
+        direction: '@Model.Direction.ToString().ToLower()',
+        freeMode: @Model.FreeModeEnabled.ToString().ToLower(),
+        centeredSlides: @Model.CenteredSlidesEnabled.ToString().ToLower(),
+        loop: @Model.Loop.ToString().ToLower(),
+        @if(Model.Loop)
+        {
+            <text>
+                loopFillGroupWithBlank: @Model.LoopFillGroupWithBlankEnabled.ToString().ToLower(),
+            </text>
+        }
+        speed: @Model.Speed,
+        @if(Model.PaginationEnabled)
+        {
+            <text>
+            // If we need pagination
+            pagination: {
+                el: '@Model.PaginationCssSelector',
+                clickable: @Model.PaginationClickableEnabled.ToString().ToLower(),
+                dynamicBullets: @Model.DynamicBulletsEnabled.ToString().ToLower()
+            },
+            </text>
+        }
+
+        @if(Model.NavigationEnabled)
+        {
+            <text>
+            // Navigation arrows
+            navigation: {
+                nextEl: '@Model.NavigationNextCssSelector',
+                prevEl: '@Model.NavigationPrevCssSelector',
+            },
+            </text>
+        }
+
+
+        @if(Model.ScrollBarEnabled)
+        {
+            <text>
+            // And if we need scrollbar
+            scrollbar: {
+                el: '@Model.ScrollBarCssSelector',
+            },
+            </text>
+        }
+
+        @if(Model.AutoPlayEnabled)
+        {
+            <text>
+                autoplay: {
+                    delay: @Model.AutoPlayDelay,
+                    disableOnInteraction: @Model.AutoPlayDisableOnInteraction.ToString().ToLower()
+                },
+            </text>
+        }
+
+        @if(!string.IsNullOrEmpty(Model.SlidesPerView))
+        {
+            if(Int32.TryParse(Model.SlidesPerView, out var slidePerView))
+            {
+                var spw = slidePerView;
+                <text>
+                    slidesPerView: @spw,
+                    slidesPerGroup: @Model.SlidesPerGroup,
+                </text>
+            }
+            else
+            {
+                <text>
+                    slidesPerView: 'auto',
+                </text>
+            }
+
+        }
+
+        @if(Model.SpaceBetween > 0)
+        {
+            <text>
+                spaceBetween: @Model.SpaceBetween,
+            </text>
+        }
+
+
+    })
+</script>
