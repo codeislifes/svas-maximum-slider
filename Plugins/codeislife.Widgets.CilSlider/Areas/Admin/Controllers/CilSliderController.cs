@@ -22,7 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace codeislife.Widgets.CilSlider.Controllers
+namespace codeislife.Widgets.CilSlider.Areas.Admin.Controllers
 {
     [Area(AreaNames.Admin)]
     [AuthorizeAdmin]
@@ -161,7 +161,7 @@ namespace codeislife.Widgets.CilSlider.Controllers
                 CenteredSlidesEnabled = _cilSliderSettings.CenteredSlidesEnabled,
                 CustomCss = _cilSliderSettings.CustomCss
             };
-            return View("~/Plugins/codeislife.Widgets.CilSlider/Views/Configure.cshtml", model);
+            return View(model);
         }
 
         [HttpPost]
@@ -228,7 +228,7 @@ namespace codeislife.Widgets.CilSlider.Controllers
 
             searchModel.SetGridPageSize();
 
-            return View("~/Plugins/codeislife.Widgets.CilSlider/Views/Slider/List.cshtml", searchModel);
+            return View(searchModel);
         }
 
         [HttpPost]
@@ -264,25 +264,85 @@ namespace codeislife.Widgets.CilSlider.Controllers
 
             var model = _sliderModelFactory.PrepareSliderModel(new SliderModel(), null);
 
-            return View("~/Plugins/codeislife.Widgets.CilSlider/Views/Slider/Create.cshtml", model);
+            return View(model);
         }
 
-        [HttpPost]
-        public virtual IActionResult Create(SliderModel model)
+        [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
+        public virtual IActionResult Create(SliderModel model, bool continueEditing)
         {
-            var entity = model.ToEntity<Slider>();
-            _sliderService.InsertSlider(entity);
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageSettings))
+                return AccessDeniedView();
 
-            SaveSliderAcl(entity, model);
+            if (ModelState.IsValid)
+            {
+                var entity = model.ToEntity<Slider>();
+                _sliderService.InsertSlider(entity);
 
-            SaveSliderStoreMappings(entity, model);
+                SaveSliderAcl(entity, model);
 
-            if (entity.Id > 0)
-                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Categories.Added"));
-            else
-                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Catalog.Categories.NotAdded"));
+                SaveSliderStoreMappings(entity, model);
 
-            return List();
+                if (entity.Id > 0)
+                    _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Categories.Added"));
+                else
+                    _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Catalog.Categories.NotAdded"));
+
+
+                if (!continueEditing)
+                    return RedirectToAction("List");
+
+                return RedirectToAction("Edit", new { id = entity.Id });
+            }
+
+            model = _sliderModelFactory.PrepareSliderModel(model, null);
+
+            return View(model);
+        }
+
+        public virtual IActionResult Edit(int id)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageSettings))
+                return AccessDeniedView();
+
+            var slider = _sliderService.GetSliderById(id);
+            if (slider == null)
+                return RedirectToAction("List");
+
+            var model = _sliderModelFactory.PrepareSliderModel(null, slider);
+
+            return View(model);
+        }
+
+
+        [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
+        public virtual IActionResult Edit(SliderModel model, bool continueEditing)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageSettings))
+                return AccessDeniedView();
+
+            var slider = _sliderService.GetSliderById(model.Id);
+            if (slider == null)
+                return RedirectToAction("List");
+
+            if (ModelState.IsValid)
+            {
+                slider = model.ToEntity(slider);
+                _sliderService.UpdateSlider(slider);
+
+                SaveSliderAcl(slider, model);
+                SaveSliderStoreMappings(slider, model);
+
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Categories.Updated"));
+
+                if (!continueEditing)
+                    return RedirectToAction("List");
+
+                return RedirectToAction("Edit", new { id = slider.Id });
+            }
+
+            model = _sliderModelFactory.PrepareSliderModel(model, slider);
+
+            return View(model);
         }
 
         [HttpPost]

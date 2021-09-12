@@ -14,8 +14,14 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
+		<None Remove="Areas\Admin\Views\_ViewStart.cshtml" />
 		<None Remove="logo.jpg" />
 		<None Remove="Views\_ViewStart.cshtml" />
+		<Content Include="Areas\Admin\Views\_ViewStart.cshtml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
 		<Content Include="logo.jpg">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
@@ -24,6 +30,27 @@
 		  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
+		<None Update="Areas\Admin\Views\CilSlider\Edit.cshtml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Areas\Admin\Views\CilSlider\Create.cshtml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Areas\Admin\Views\CilSlider\List.cshtml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Areas\Admin\Views\CilSlider\_CreateOrUpdate.cshtml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Areas\Admin\Views\CilSlider\_CreateOrUpdate.Info.cshtml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Areas\Admin\Views\CilSlider\_CreateOrUpdate.Mappings.cshtml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Areas\Admin\Views\_ViewImports.cshtml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="Content\css\style.css">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -51,25 +78,10 @@
 		<None Update="Themes\DefaultClean\Views\_ViewImports.cshtml">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Views\Configure.cshtml">
+		<None Update="Areas\Admin\Views\CilSlider\Configure.cshtml">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Views\Shared\Components\CilSlider\Default.cshtml">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Views\Slider\_CreateOrUpdate.Mappings.cshtml">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Views\Slider\_CreateOrUpdate.Info.cshtml">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Views\Slider\_CreateOrUpdate.cshtml">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Views\Slider\List.cshtml">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Views\Slider\Create.cshtml">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Views\_ViewImports.cshtml">

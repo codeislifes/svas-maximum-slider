@@ -61,7 +61,7 @@ namespace codeislife.Widgets.CilSlider
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.Speed", "Speed");
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.Loop", "Loop");
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.LoopFillGroupWithBlankEnabled", "Loop Fill Group With Blank Enabled");
-            
+
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.PaginationEnabled", "Pagination Enabled");
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Models.PaginationClickableEnabled", "Pagination Clickable Enabled");
 
@@ -84,6 +84,7 @@ namespace codeislife.Widgets.CilSlider
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.widgets.cilslider.configuration.title", "Configuration");
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Sliders", "Sliders");
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Sliders.AddNew", "Add a New Slider");
+            _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Sliders.Edit", "Update {0}");
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Sliders.BackToList", "back to list");
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Sliders.Info", "Info");
             _localizationService.AddOrUpdatePluginLocaleResource("codeislife.Widgets.CilSlider.Sliders.Mappings", "Mappings");

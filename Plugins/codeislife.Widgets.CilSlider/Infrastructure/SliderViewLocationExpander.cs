@@ -12,9 +12,9 @@ namespace codeislife.Widgets.CilSlider.Infrastructure
 
         public void PopulateValues(ViewLocationExpanderContext context)
         {
-            //no need to add the themeable view locations at all as the administration should not be themeable anyway
-            if (context.AreaName?.Equals(AreaNames.Admin) ?? false)
-                return;
+            ////no need to add the themeable view locations at all as the administration should not be themeable anyway
+            //if (context.AreaName?.Equals(AreaNames.Admin) ?? false)
+            //    return;
 
             var themeContext = (IThemeContext)context.ActionContext.HttpContext.RequestServices.GetService(typeof(IThemeContext));
             context.Values[THEME_KEY] = themeContext.WorkingThemeName;
@@ -28,6 +28,11 @@ namespace codeislife.Widgets.CilSlider.Infrastructure
                         $"/Plugins/codeislife.Widgets.CilSlider/Themes/{theme}/Views/{{0}}.cshtml",
                         $"/Plugins/codeislife.Widgets.CilSlider/Themes/{theme}/Views/{{1}}/{{0}}.cshtml",
                         $"/Plugins/codeislife.Widgets.CilSlider/Themes/{theme}/Views/Shared/{{0}}.cshtml",
+
+                        $"/Plugins/codeislife.Widgets.CilSlider/Areas/{{2}}/Views/{{0}}.cshtml",
+                        $"/Plugins/codeislife.Widgets.CilSlider/Areas/{{2}}/Views/{{1}}/{{0}}.cshtml",
+                        $"/Plugins/codeislife.Widgets.CilSlider/Areas/{{2}}/Views/Shared/{{0}}.cshtml",
+
                         $"/Plugins/codeislife.Widgets.CilSlider/Views/{{0}}.cshtml",
                         $"/Plugins/codeislife.Widgets.CilSlider/Views/{{1}}/{{0}}.cshtml",
                         $"/Plugins/codeislife.Widgets.CilSlider/Views/Shared/{{0}}.cshtml",
