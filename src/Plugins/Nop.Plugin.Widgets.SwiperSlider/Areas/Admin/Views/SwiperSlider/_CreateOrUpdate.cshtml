@@ -1,0 +1,45 @@
+﻿@model SwiperSliderModel
+
+@{
+    var currentCustomer = await workContext.GetCurrentCustomerAsync();
+    const string hideInfoBlockAttributeName = "SliderPage.Create.HideInfoBlock";
+    var hideInfoBlock = await genericAttributeService.GetAttributeAsync<bool>(currentCustomer, hideInfoBlockAttributeName, defaultValue: true);
+
+    const string hideMappingsBlockAttributeName = "SliderPage.Create.HideMappingsBlock";
+    var hideMappingsBlock = await genericAttributeService.GetAttributeAsync<bool>(currentCustomer, hideMappingsBlockAttributeName, defaultValue: true);
+}
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-md-12 clearfix">
+                <div class="pull-left">
+                    @await Component.InvokeAsync("SettingMode", new { modeName = "slider-advanced-mode" })
+                </div>
+            </div>
+        </div>
+
+        <nop-panels id="slider-panels">
+            <nop-panel asp-name="slider-info"
+                       asp-icon="fa fa-info"
+                       asp-title="@T("Nop.Plugin.Widgets.SwiperSlider.Sliders.Info")"
+                       asp-hide-block-attribute-name="@hideInfoBlockAttributeName"
+                       asp-hide="@hideInfoBlock"
+                       asp-advanced="false">
+                @await Html.PartialAsync("_CreateOrUpdate.Info", Model)
+            </nop-panel>
+
+            <nop-panel asp-name="slider-mapping"
+                       asp-icon="fa fa-info"
+                       asp-title="@T("Nop.Plugin.Widgets.SwiperSlider.Sliders.Mappings")"
+                       asp-hide-block-attribute-name="@hideMappingsBlockAttributeName"
+                       asp-hide="@hideMappingsBlock"
+                       asp-advanced="true">
+                @await Html.PartialAsync("_CreateOrUpdate.Mappings", Model)
+            </nop-panel>
+        </nop-panels>
+    </div>
+</div>
