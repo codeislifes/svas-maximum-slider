@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Core.Domain.Catalog;
-using Nop.Plugin.Widgets.SwiperSlider.Data.Domain;
 using Nop.Plugin.Widgets.SwiperSlider.Factories;
 using Nop.Plugin.Widgets.SwiperSlider.Models;
 using Nop.Plugin.Widgets.SwiperSlider.Services;
@@ -257,7 +256,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
 
         #endregion
 
-        #region Create
+        #region CRUD
         public virtual async Task<IActionResult> Create()
         {
             if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageSettings))
@@ -313,7 +312,6 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
 
             return View(model);
         }
-
 
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public virtual async Task<IActionResult> Edit(SwiperSliderModel model, bool continueEditing)
