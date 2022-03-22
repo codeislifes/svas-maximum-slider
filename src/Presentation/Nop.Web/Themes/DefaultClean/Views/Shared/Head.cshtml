@@ -1,0 +1,17 @@
+﻿@using Nop.Core
+@using Nop.Services.Helpers
+@using Nop.Web.Framework.UI
+@inject IThemeContext themeContext
+@inject IUserAgentHelper userAgentHelper
+@{
+    Layout ="";
+    var themeName = await themeContext.GetWorkingThemeNameAsync();
+    var supportRtl = await Html.ShouldUseRtlThemeAsync();
+
+    //add main CSS file
+    NopHtml.AppendCssFileParts($"~/Themes/{themeName}/Content/css/styles{(supportRtl ? ".rtl" : "")}.css");
+
+    //add jQuery UI css file
+    NopHtml.AppendCssFileParts("~/lib_npm/jquery-ui-dist/jquery-ui.min.css");
+
+}
