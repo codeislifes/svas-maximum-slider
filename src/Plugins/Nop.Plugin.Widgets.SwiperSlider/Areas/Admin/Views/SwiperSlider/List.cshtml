@@ -1,0 +1,107 @@
+﻿@model SwiperSliderSearchModel
+
+@{ 
+    ViewBag.PageTitle = T("Nop.Plugin.Widgets.SwiperSlider.Sliders").Text;
+}
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        @T("Nop.Plugin.Widgets.SwiperSlider.Sliders")
+    </h1>
+    <div class="pull-right">
+        <a asp-action="Create" class="btn bg-blue">
+            <i class="fa fa-plus-square"></i>
+            @T("Admin.Common.AddNew")
+        </a>
+        <button type="button" id="delete-selected" class="btn bg-red">
+            <i class="fa fa-trash-o"></i>
+            @T("Admin.Common.Delete.Selected")
+        </button>
+        <nop-action-confirmation asp-button-id="delete-selected" />
+    </div>
+</div>
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    @await Html.PartialAsync("Table", new DataTablesModel
+                    {
+                        Name = "sliders-grid",
+                        UrlRead = new DataUrl("List", "SwiperSlider", null),
+                        SearchButtonId = "search-sliders",
+                        Length = Model.PageSize,
+                        LengthMenu = Model.AvailablePageSizes,
+                        Filters = new List<FilterParameter>
+                        {
+                            new FilterParameter(nameof(Model.SearchSliderName)),
+                            new FilterParameter(nameof(Model.SearchStoreId)),
+                            new FilterParameter(nameof(Model.SearchPublishedId))
+                        },
+                        ColumnCollection = new List<ColumnProperty>
+                        {
+                            new ColumnProperty(nameof(SwiperSliderModel.Id))
+                            {
+                                IsMasterCheckBox = true,
+                                Render = new RenderCheckBox("checkbox_sliders"),
+                                ClassName =  NopColumnClassDefaults.CenterAll,
+                                Width = "50"
+                            },
+                            new ColumnProperty(nameof(SwiperSliderModel.Name))
+                            {
+                                Title = T("Admin.Catalog.Categories.Fields.Name").Text
+                            },
+                            new ColumnProperty(nameof(SwiperSliderModel.Published))
+                            {
+                                Title = T("Admin.Catalog.Categories.Fields.Published").Text,
+                                Width = "100",
+                                ClassName = NopColumnClassDefaults.CenterAll,
+                                Render = new RenderBoolean()
+                            },
+                            new ColumnProperty(nameof(SwiperSliderModel.DisplayOrder))
+                            {
+                                Title = T("Admin.Catalog.Categories.Fields.DisplayOrder").Text,
+                                Width = "150",
+                                ClassName =  NopColumnClassDefaults.CenterAll
+                            },
+                            new ColumnProperty(nameof(SwiperSliderModel.Id))
+                            {
+                                Title = T("Admin.Common.Edit").Text,
+                                Width = "100",
+                                ClassName =  NopColumnClassDefaults.Button,
+                                Render = new RenderButtonEdit(new DataUrl("Edit"))
+                            }
+                        }
+                    })
+
+                    <script>
+                        $(document).ready(function () {
+                            $('#delete-selected-action-confirmation-submit-button').bind('click', function () {
+                                var postData = {
+                                    selectedIds: selectedIds
+                                };
+                                addAntiForgeryToken(postData);
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "@(Url.Action("DeleteSelected", "SwiperSlider"))",
+                                    data: postData,
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        $('#deleteSelectedFailed-info').text(errorThrown);
+                                        $('#deleteSelectedFailed').click();
+                                    },
+                                    complete: function (jqXHR, textStatus) {
+                                        updateTable('#sliders-grid');
+                                    }
+                                });
+                                $('#delete-selected-action-confirmation').modal('toggle');
+                                return false;
+                            });
+                        });
+                    </script>
+                    <nop-alert asp-alert-id="deleteSelectedFailed" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
