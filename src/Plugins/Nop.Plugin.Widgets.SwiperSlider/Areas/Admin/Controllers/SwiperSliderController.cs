@@ -352,11 +352,11 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
             if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageSettings))
                 return AccessDeniedView();
 
-            if (selectedIds != null)
-            {
-                var sliders = await _sliderService.GetSliderByIdsAsync(selectedIds);
-                await _sliderService.DeleteSliderAsync(sliders);
-            }
+            if (selectedIds == null || selectedIds.Count == 0)
+                return NoContent();
+
+            var sliders = await _sliderService.GetSliderByIdsAsync(selectedIds);
+            await _sliderService.DeleteSliderAsync(sliders);
 
             return Json(new { Result = true });
 
