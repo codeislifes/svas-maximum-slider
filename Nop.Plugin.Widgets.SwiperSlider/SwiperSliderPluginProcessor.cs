@@ -9,6 +9,7 @@ using Nop.Web.Framework.Infrastructure;
 
 namespace Nop.Plugin.Widgets.SwiperSlider
 {
+    // Hello
     public class SwiperSliderPluginProcessor : BasePlugin, IWidgetPlugin
     {
         #region Fields
