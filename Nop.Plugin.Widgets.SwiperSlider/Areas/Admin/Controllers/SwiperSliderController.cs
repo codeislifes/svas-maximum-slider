@@ -344,6 +344,25 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
             return View(model);
         }
 
+
+        [HttpPost]
+        public virtual async Task<IActionResult> Delete(int id)
+        {
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageSettings))
+                return AccessDeniedView();
+
+            //try to get a category with the specified id
+            var slider = await _sliderService.GetSliderByIdAsync(id);
+            if (slider == null)
+                return RedirectToAction("List");
+
+            await _sliderService.DeleteSliderAsync(slider);
+
+            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Catalog.Categories.Deleted"));
+
+            return RedirectToAction("List");
+        }
+
         [HttpPost]
         public virtual async Task<IActionResult> DeleteSelected(ICollection<int> selectedIds)
         {
