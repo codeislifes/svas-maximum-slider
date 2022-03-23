@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Nop.Data;
 using Nop.Plugin.Widgets.SwiperSlider.Data.Domain;
-using Nop.Plugin.Widgets.SwiperSlider.Models;
+using Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Models;
 using Nop.Services.Localization;
 using Nop.Web.Framework.Validators;
 

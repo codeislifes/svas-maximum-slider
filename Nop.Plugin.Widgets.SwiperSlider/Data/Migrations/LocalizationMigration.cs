@@ -32,6 +32,11 @@ namespace Nop.Plugin.Widgets.SwiperSlider_dev.Data.Migrations
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.ActivityLog.EditSwiperSlider", "Added a new swiper slider ({0})"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.ActivityLog.DeleteSwiperSlider", "Added a new swiper slider ({0})"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.ActivityLog.DeleteSwiperSliders", "Multiple swiper slider were deleted. (IDs : {0})"},
+
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.ActivityLog.AddNewSwiperSliderItem", "Added a new swiper slider item ({0})"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.ActivityLog.EditSwiperSliderItem", "Added a new swiper slider item ({0})"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.ActivityLog.DeleteSwiperSliderItem", "Added a new swiper slider item ({0})"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.ActivityLog.DeleteSwiperSliderItems", "Multiple swiper slider items were deleted. (IDs : {0})"},
                 
                 // Notification Messages
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.Added", "{0} has beed added."},
@@ -39,16 +44,18 @@ namespace Nop.Plugin.Widgets.SwiperSlider_dev.Data.Migrations
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.Updated", "{0} has beed updated."},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.Deleted", "{0} has beed deleted."},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.AllDeleted", "The selected sliders are deleted."},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Slider.NotFound", "No swiper slider found with the specified id"},
+
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.SliderItems.Added", "{0} has beed added."},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.SliderItems.NotAdded", "Swiper slider item could not be added."},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.SliderItems.Updated", "{0} has beed updated."},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.SliderItems.Deleted", "{0} has beed deleted."},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.SliderItems.AllDeleted", "The selected slider items are deleted."},
 
                 // General
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.NoCustomerRolesAvailable", "No customer roles available"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.NoStoresAvailable", "No stores available"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.BackToList", "back to list"},
-
-                // Cards
-                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Cards.Info.Title", "Info"},
-                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Cards.Mappings.Title", "Mappings"},
-                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Cards.Items.Title", "Slider Items"},
 
                 // Configuration
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Cards.General.Title", "General"},
@@ -116,6 +123,20 @@ namespace Nop.Plugin.Widgets.SwiperSlider_dev.Data.Migrations
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Edit.PageTitle", "Update {0} - Swiper Slider"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Edit.Title", "Update Swiper Slider - {0}"},
 
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Create.PageTitle", "Create Swiper Slider Item"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Create.Title", "Add a New Swiper Slider  Item"},
+
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Edit.PageTitle", "Update {0} - Swiper Slider  Item"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Edit.Title", "Update Swiper Slider  Item- {0}"},
+
+                // Cards
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Cards.Info.Title", "Info"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Cards.Mappings.Title", "Mappings"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Cards.Items.Title", "Slider Items"},
+
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Cards.Info.Title", "Info"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Cards.Mappings.Title", "Mappings"},
+
                 // Slider Field Names
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.Name", "Slider Name"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.Name.Hint", "Slider Name"},
@@ -131,6 +152,8 @@ namespace Nop.Plugin.Widgets.SwiperSlider_dev.Data.Migrations
                 // Slider Item Field Names
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Slider", "Slider Name"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Slider.Hint", "Slider Name"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Name", "Slider Item Name"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Name.Hint", "Slider Item Name"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Picture", "Picture"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Picture.Hint", "Picture"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.DisplayOrder", "Display Order"},
@@ -141,7 +164,10 @@ namespace Nop.Plugin.Widgets.SwiperSlider_dev.Data.Migrations
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.AclCustomerRoles.Hint", "Customer Roles"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.LimitedToStores", "Limited To Stores"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.LimitedToStores.Hint", "Limited To Stores"},
+
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.BackToSlider", "back to edit slider" },
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.SaveBeforeEdit", "You need to save the slider before you can add slider items for this slider page."},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.CreateButton", "Add New Slider Item" },
             };
 
             var localizationService = EngineContext.Current.Resolve<ILocalizationService>();

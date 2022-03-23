@@ -1,0 +1,47 @@
+﻿@model SwiperSliderItemModel
+
+@{
+    var currentCustomer = await workContext.GetCurrentCustomerAsync();
+    const string hideInfoBlockAttributeName = "Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.HideInfoBlock";
+    var hideInfoBlock = await genericAttributeService.GetAttributeAsync<bool>(currentCustomer, hideInfoBlockAttributeName, defaultValue: true);
+
+    const string hideMappingsBlockAttributeName = "Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.HideMappingsBlock";
+    var hideMappingsBlock = await genericAttributeService.GetAttributeAsync<bool>(currentCustomer, hideMappingsBlockAttributeName, defaultValue: true);
+}
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+<input asp-for="SliderId" hidden="hidden" />
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12 clearfix">
+                    <div class="float-left">
+                        @await Component.InvokeAsync("SettingMode", new { modeName = "slider-advanced-mode" })
+                    </div>
+                </div>
+            </div>
+            <nop-cards id="slider-panels">
+                <nop-card asp-name="slider-info"
+                          asp-icon="fa fa-info"
+                          asp-title="@T("Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Cards.Info.Title")"
+                          asp-hide-block-attribute-name="@hideInfoBlockAttributeName"
+                          asp-hide="@hideInfoBlock"
+                          asp-advanced="false">
+                    @await Html.PartialAsync("_SliderItem.CreateOrUpdate.Info", Model)
+                </nop-card>
+
+                <nop-card asp-name="slider-mapping"
+                          asp-icon="fa fa-info"
+                          asp-title="@T("Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Cards.Mappings.Title")"
+                          asp-hide-block-attribute-name="@hideMappingsBlockAttributeName"
+                          asp-hide="@hideMappingsBlock"
+                          asp-advanced="true">
+                    @await Html.PartialAsync("_SliderItem.CreateOrUpdate.Mappings", Model)
+                </nop-card>
+            </nop-cards>
+        </div>
+    </div>
+</div>

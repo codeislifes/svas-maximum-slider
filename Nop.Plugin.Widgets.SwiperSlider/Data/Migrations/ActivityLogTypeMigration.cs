@@ -62,6 +62,48 @@ namespace Nop.Plugin.Widgets.SwiperSlider_dev.Data.Migrations
                     Enabled = true
                 });
             }
+
+
+            // Slider Item Log Types
+            if (!_dataProvider.GetTable<ActivityLogType>().Any(pr => string.Compare(pr.SystemKeyword, "AddNewSwiperSliderItem", StringComparison.InvariantCultureIgnoreCase) == 0))
+            {
+                _dataProvider.InsertEntity(new ActivityLogType
+                {
+                    Name = "Add a new swiper slider item",
+                    SystemKeyword = "AddNewSwiperSliderItem",
+                    Enabled = true
+                });
+            }
+
+            if (!_dataProvider.GetTable<ActivityLogType>().Any(pr => string.Compare(pr.SystemKeyword, "EditSwiperSliderItem", StringComparison.InvariantCultureIgnoreCase) == 0))
+            {
+                _dataProvider.InsertEntity(new ActivityLogType
+                {
+                    Name = "Edit swiper slider item",
+                    SystemKeyword = "EditSwiperSliderItem",
+                    Enabled = true
+                });
+            }
+
+            if (!_dataProvider.GetTable<ActivityLogType>().Any(pr => string.Compare(pr.SystemKeyword, "DeleteSwiperSliderItem", StringComparison.InvariantCultureIgnoreCase) == 0))
+            {
+                _dataProvider.InsertEntity(new ActivityLogType
+                {
+                    Name = "Delete a swiper slider item",
+                    SystemKeyword = "DeleteSwiperSliderItem",
+                    Enabled = true
+                });
+            }
+
+            if (!_dataProvider.GetTable<ActivityLogType>().Any(pr => string.Compare(pr.SystemKeyword, "DeleteSwiperSliderItems", StringComparison.InvariantCultureIgnoreCase) == 0))
+            {
+                _dataProvider.InsertEntity(new ActivityLogType
+                {
+                    Name = "Delete multiple swiper slider itemss",
+                    SystemKeyword = "DeleteSwiperSliderItems",
+                    Enabled = true
+                });
+            }
         }
     }
 }

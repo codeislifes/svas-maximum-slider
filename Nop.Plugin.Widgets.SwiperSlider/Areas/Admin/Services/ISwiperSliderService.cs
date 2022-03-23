@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Nop.Core;
 using Nop.Plugin.Widgets.SwiperSlider.Data.Domain;
 
-namespace Nop.Plugin.Widgets.SwiperSlider.Services
+namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Services
 {
     public interface ISwiperSliderService
     {

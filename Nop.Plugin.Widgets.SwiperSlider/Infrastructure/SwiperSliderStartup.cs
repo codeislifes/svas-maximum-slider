@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nop.Core.Infrastructure;
-using Nop.Plugin.Widgets.SwiperSlider.Factories;
-using Nop.Plugin.Widgets.SwiperSlider.Models;
-using Nop.Plugin.Widgets.SwiperSlider.Services;
+using Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Factories;
+using Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Models;
+using Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Services;
 using Nop.Plugin.Widgets.SwiperSlider.Validators;
 
 namespace Nop.Plugin.Widgets.SwiperSlider.Infrastructure

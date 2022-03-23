@@ -11,7 +11,7 @@ using Nop.Data;
 using Nop.Plugin.Widgets.SwiperSlider.Data.Domain;
 using Nop.Services.Customers;
 
-namespace Nop.Plugin.Widgets.SwiperSlider.Services
+namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Services
 {
     public class SwiperSliderService : ISwiperSliderService
     {

@@ -2,7 +2,7 @@
 
 namespace Nop.Plugin.Widgets.SwiperSlider.Models
 {
-    public record SwiperSliderListModel : BasePagedListModel<SwiperSliderModel>
+    public record SliderViewModel : BaseNopModel
     {
     }
 }

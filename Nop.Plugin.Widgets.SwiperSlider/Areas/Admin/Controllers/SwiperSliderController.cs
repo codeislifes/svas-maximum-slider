@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Nop.Core;
 using Nop.Core.Domain.Catalog;
-using Nop.Plugin.Widgets.SwiperSlider.Factories;
-using Nop.Plugin.Widgets.SwiperSlider.Models;
-using Nop.Plugin.Widgets.SwiperSlider.Services;
+using Nop.Core.Domain.Security;
+using Nop.Core.Domain.Stores;
+using Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Factories;
+using Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Models;
+using Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Services;
+using Nop.Plugin.Widgets.SwiperSlider.Data.Domain;
 using Nop.Services.Configuration;
 using Nop.Services.Customers;
 using Nop.Services.Localization;
@@ -18,6 +22,7 @@ using Nop.Web.Areas.Admin.Factories;
 using Nop.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
+using Nop.Web.Framework.Models;
 using Nop.Web.Framework.Mvc.Filters;
 
 namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
@@ -80,12 +85,11 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
         #endregion
 
         #region Utilities
-        protected virtual async Task SaveSliderAclAsync(Data.Domain.Slider slider, SwiperSliderModel model)
+        private async Task SaveAclAsync<TEntity, TModel>(TEntity entity, TModel model)
+            where TEntity : BaseEntity, IAclSupported
+            where TModel : BaseNopEntityModel, IAclSupportedModel
         {
-            slider.SubjectToAcl = model.SelectedCustomerRoleIds.Any();
-            await _swiperSliderService.UpdateSliderAsync(slider);
-
-            var existingAclRecords = await _aclService.GetAclRecordsAsync(slider);
+            var existingAclRecords = await _aclService.GetAclRecordsAsync(entity);
             var allCustomerRoles = await _customerService.GetAllCustomerRolesAsync(true);
             foreach (var customerRole in allCustomerRoles)
             {
@@ -93,7 +97,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
                 {
                     //new role
                     if (!existingAclRecords.Any(acl => acl.CustomerRoleId == customerRole.Id))
-                        await _aclService.InsertAclRecordAsync(slider, customerRole.Id);
+                        await _aclService.InsertAclRecordAsync(entity, customerRole.Id);
                 }
                 else
                 {
@@ -104,13 +108,11 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
                 }
             }
         }
-
-        protected virtual async Task SaveSliderStoreMappingsAsync(Data.Domain.Slider slider, SwiperSliderModel model)
+        private async Task SaveStoreMappingsAsync<TEntity, TModel>(TEntity entity, TModel model)
+            where TEntity : BaseEntity, IStoreMappingSupported
+            where TModel : BaseNopEntityModel, IStoreMappingSupportedModel
         {
-            slider.LimitedToStores = model.SelectedStoreIds.Any();
-            await _swiperSliderService.UpdateSliderAsync(slider);
-
-            var existingStoreMappings = await _storeMappingService.GetStoreMappingsAsync(slider);
+            var existingStoreMappings = await _storeMappingService.GetStoreMappingsAsync(entity);
             var allStores = await _storeService.GetAllStoresAsync();
             foreach (var store in allStores)
             {
@@ -118,7 +120,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
                 {
                     //new store
                     if (!existingStoreMappings.Any(sm => sm.StoreId == store.Id))
-                        await _storeMappingService.InsertStoreMappingAsync(slider, store.Id);
+                        await _storeMappingService.InsertStoreMappingAsync(entity, store.Id);
                 }
                 else
                 {
@@ -128,6 +130,30 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
                         await _storeMappingService.DeleteStoreMappingAsync(storeMappingToDelete);
                 }
             }
+        }
+        protected virtual async Task SaveSliderAclAsync(Slider slider, SwiperSliderModel model)
+        {
+            slider.SubjectToAcl = model.SelectedCustomerRoleIds.Any();
+            await _swiperSliderService.UpdateSliderAsync(slider);
+            await SaveAclAsync(slider, model);
+        }
+        protected virtual async Task SaveSliderStoreMappingsAsync(Slider slider, SwiperSliderModel model)
+        {
+            slider.LimitedToStores = model.SelectedStoreIds.Any();
+            await _swiperSliderService.UpdateSliderAsync(slider);
+            await SaveStoreMappingsAsync(slider, model);
+        }
+        protected virtual async Task SaveSliderItemAclAsync(SliderItem sliderItem, SwiperSliderItemModel model)
+        {
+            sliderItem.SubjectToAcl = model.SelectedCustomerRoleIds.Any();
+            await _swiperSliderService.UpdateSliderItemAsync(sliderItem);
+            await SaveAclAsync(sliderItem, model);
+        }
+        protected virtual async Task SaveSliderItemStoreMappingsAsync(SliderItem sliderItem, SwiperSliderItemModel model)
+        {
+            sliderItem.LimitedToStores = model.SelectedStoreIds.Any();
+            await _swiperSliderService.UpdateSliderItemAsync(sliderItem);
+            await SaveStoreMappingsAsync(sliderItem, model);
         }
         #endregion
 
@@ -385,6 +411,76 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
             var model = await _swiperSliderModelFactory.PrepareSliderItemListModelAsync(searchModel);
 
             return Json(model);
+        }
+
+        public virtual async Task<IActionResult> SliderItemCreate(int sliderId)
+        {
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            if (await _swiperSliderService.GetSliderByIdAsync(sliderId) == null)
+            {
+                _notificationService.ErrorNotification("Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Slider.NotFound");
+                return RedirectToAction("List");
+            }
+
+            try
+            {
+                var model = await _swiperSliderModelFactory.PrepareSliderItemModelAsync(new SwiperSliderItemModel { SliderId = sliderId }, null);
+                return View(model);
+
+            }
+            catch (Exception ex)
+            {
+                await _notificationService.ErrorNotificationAsync(ex);
+
+                //select an appropriate card
+                SaveSelectedCardName("swiper-slider-items");
+                return RedirectToAction("Edit", new { id = sliderId });
+            }
+        }
+
+        [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
+        public virtual async Task<IActionResult> SliderItemCreate(SwiperSliderItemModel model, bool continueEditing)
+        {
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            if (ModelState.IsValid)
+            {
+                var sliderItem = model.ToEntity<SliderItem>();
+                await _swiperSliderService.InsertSliderItemAsync(sliderItem);
+
+                await SaveSliderItemAclAsync(sliderItem, model);
+
+                await SaveSliderItemStoreMappingsAsync(sliderItem, model);
+
+                if (sliderItem.Id > 0)
+                {
+                    //activity log
+                    await _customerActivityService.InsertActivityAsync("AddNewSwiperSliderItem",
+                        string.Format(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.ActivityLog.AddNewSwiperSliderItem"), sliderItem.Name), sliderItem);
+
+                    var message = await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.SliderItems.Added");
+                    _notificationService.SuccessNotification(string.Format(message, sliderItem.Name));
+                }
+                else
+                    _notificationService.ErrorNotification(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.SliderItems.NotAdded"));
+
+
+                if (continueEditing)
+                {
+                    return RedirectToAction("SliderItemCreate", new { sliderId = model.SliderId });
+                }
+
+                //select an appropriate card
+                SaveSelectedCardName("swiper-slider-items");
+                return RedirectToAction("Edit", new { id = model.SliderId });
+            }
+
+            model = await _swiperSliderModelFactory.PrepareSliderItemModelAsync(model, null);
+
+            return View(model);
         }
         #endregion
     }

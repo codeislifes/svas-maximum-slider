@@ -1,9 +1,10 @@
 ﻿@model SwiperSliderModel
 
 
-<div class="card-body">
-    @if (Model.Id > 0)
-    {
+
+@if (Model.Id > 0)
+{
+    <div class="card-body">
         @await Html.PartialAsync("Table", new DataTablesModel
         {
             Name = "slider-items-grid",
@@ -29,6 +30,10 @@
                 new ColumnProperty(nameof(SwiperSliderItemModel.SliderName))
                 {
                     Title = T("Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Slider").Text
+                },
+                new ColumnProperty(nameof(SwiperSliderItemModel.Name))
+                {
+                    Title = T("Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Name").Text
                 },
                 new ColumnProperty(nameof(SwiperSliderItemModel.Published))
                 {
@@ -84,11 +89,21 @@
             </script>
             <nop-alert asp-alert-id="deleteSelectedFailed" />
             <nop-alert asp-alert-id="nothingSelectedAlert" />*@
-    }
-    else
-    {
+    </div>
+    <div class="card-footer">
+        <a asp-action="SliderItemCreate"
+           asp-route-sliderId="@Model.Id"
+           class="btn btn-primary">
+            <i class="fas fa-plus-square"></i>
+            @T("Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.CreateButton")
+        </a>
+    </div>
+}
+else
+{
+    <div class="card-body">
         <p>
             @T("Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.SaveBeforeEdit")
         </p>
-    }
-</div>
+    </div>
+}
