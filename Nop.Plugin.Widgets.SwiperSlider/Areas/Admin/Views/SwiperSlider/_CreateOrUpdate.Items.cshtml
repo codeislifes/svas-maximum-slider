@@ -1,0 +1,94 @@
+﻿@model SwiperSliderModel
+
+
+<div class="card-body">
+    @if (Model.Id > 0)
+    {
+        @await Html.PartialAsync("Table", new DataTablesModel
+        {
+            Name = "slider-items-grid",
+            UrlRead = new DataUrl("SliderItemList", "SwiperSlider", new RouteValueDictionary { [nameof(Model.SwiperSliderItemSearchModel.SliderId)] = Model.SwiperSliderItemSearchModel.SliderId }),
+            Length = Model.SwiperSliderItemSearchModel.PageSize,
+            LengthMenu = Model.SwiperSliderItemSearchModel.AvailablePageSizes,
+            ColumnCollection = new List<ColumnProperty>
+            {
+                new ColumnProperty(nameof(SwiperSliderItemModel.Id))
+                {
+                    IsMasterCheckBox = true,
+                    Render = new RenderCheckBox("checkbox_sliders"),
+                    ClassName =  NopColumnClassDefaults.CenterAll,
+                    Width = "50"
+                },
+                new ColumnProperty(nameof(SwiperSliderItemModel.PictureThumbnailUrl))
+                {
+                    Title = T("Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Picture").Text,
+                    Width = "100",
+                    ClassName =  NopColumnClassDefaults.CenterAll,
+                    Render = new RenderPicture()
+                },
+                new ColumnProperty(nameof(SwiperSliderItemModel.SliderName))
+                {
+                    Title = T("Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Slider").Text
+                },
+                new ColumnProperty(nameof(SwiperSliderItemModel.Published))
+                {
+                    Title = T("Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Published").Text,
+                    Width = "100",
+                    ClassName = NopColumnClassDefaults.CenterAll,
+                    Render = new RenderBoolean()
+                },
+                new ColumnProperty(nameof(SwiperSliderItemModel.DisplayOrder))
+                {
+                    Title = T("Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.DisplayOrder").Text,
+                    Width = "150",
+                    ClassName =  NopColumnClassDefaults.CenterAll
+                },
+                new ColumnProperty(nameof(SwiperSliderModel.Id))
+                {
+                    Title = T("Admin.Common.Edit").Text,
+                    Width = "100",
+                    ClassName =  NopColumnClassDefaults.Button,
+                    Render = new RenderButtonEdit(new DataUrl("Edit"))
+                }
+            }
+        })
+
+        @*<script>
+                $(document).ready(function () {
+                    $('#delete-selected-action-confirmation-submit-button').bind('click', function () {
+                        var postData = {
+                            selectedIds: selectedIds
+                        };
+                        addAntiForgeryToken(postData);
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: "@(Url.Action("DeleteSelected", "SwiperSlider"))",
+                            data: postData,
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                showAlert('deleteSelectedFailed', errorThrown);
+                            },
+                            complete: function (jqXHR, textStatus) {
+                                if (jqXHR.status === 204)
+                                {
+                                    showAlert('nothingSelectedAlert', '@T("Admin.Common.Alert.NothingSelected")');
+                                    return;
+                                }
+                                updateTable('#sliders-grid');
+                            }
+                        });
+                        $('#delete-selected-action-confirmation').modal('toggle');
+                        return false;
+                    });
+                });
+            </script>
+            <nop-alert asp-alert-id="deleteSelectedFailed" />
+            <nop-alert asp-alert-id="nothingSelectedAlert" />*@
+    }
+    else
+    {
+        <p>
+            @T("Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.SaveBeforeEdit")
+        </p>
+    }
+</div>

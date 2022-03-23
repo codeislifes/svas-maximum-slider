@@ -11,9 +11,5 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Data.Domain
         public bool Published { get; set; }
         public bool LimitedToStores { get; set; }
         public bool SubjectToAcl { get; set; }
-
-        /*
-         * Bir slider içerisinde birden fazla resim yani slider item bulunur!
-         */
     }
 }

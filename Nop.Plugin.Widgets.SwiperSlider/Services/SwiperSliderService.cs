@@ -6,6 +6,7 @@ using Nop.Core;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Security;
 using Nop.Core.Domain.Stores;
+using Nop.Core.Events;
 using Nop.Data;
 using Nop.Plugin.Widgets.SwiperSlider.Data.Domain;
 using Nop.Services.Customers;
@@ -16,10 +17,11 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Services
     {
         #region Fields
         private readonly IWorkContext _workContext;
+        private readonly IEventPublisher _eventPublisher;
         private readonly CatalogSettings _catalogSettings;
         private readonly ICustomerService _customerService;
         private readonly IRepository<AclRecord> _aclRepository;
-        private readonly IRepository<Data.Domain.Slider> _sliderRepository;
+        private readonly IRepository<Slider> _sliderRepository;
         private readonly IRepository<SliderItem> _sliderItemRepository;
         private readonly IRepository<StoreMapping> _storeMappingRepository;
         #endregion
@@ -27,14 +29,17 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Services
         #region Ctor
         public SwiperSliderService(
             IWorkContext workContext,
+            IEventPublisher eventPublisher,
             CatalogSettings catalogSettings,
             ICustomerService customerService,
             IRepository<AclRecord> aclRepository,
-            IRepository<Data.Domain.Slider> sliderRepository,
+            IRepository<Slider> sliderRepository,
             IRepository<SliderItem> sliderItemRepository,
-            IRepository<StoreMapping> storeMappingRepository)
+            IRepository<StoreMapping> storeMappingRepository
+        )
         {
             _workContext = workContext;
+            _eventPublisher = eventPublisher;
             _catalogSettings = catalogSettings;
             _customerService = customerService;
             _aclRepository = aclRepository;
@@ -47,7 +52,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Services
         #endregion
 
         #region Slider
-        public async Task<IPagedList<Data.Domain.Slider>> GetAllSlidersAsync(
+        public async Task<IPagedList<Slider>> GetAllSlidersAsync(
             string name,
             int storeId = 0,
             int pageIndex = 0,
@@ -70,14 +75,13 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Services
                 if (!showHidden && !_catalogSettings.IgnoreAcl)
                 {
                     //ACL (access control list)
-                    // TODO : Mehmet -> Burayı açıkla.
                     var allowedCustomerRolesIds = await _customerService.GetCustomerRoleIdsAsync(await _workContext.GetCurrentCustomerAsync());
                     query = from c in query
                             join acl in _aclRepository.Table
                                 on new
                                 {
                                     c1 = c.Id,
-                                    c2 = nameof(Data.Domain.Slider)
+                                    c2 = nameof(Slider)
                                 }
                                 equals
                                 new
@@ -93,13 +97,12 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Services
                 if (storeId > 0 && !_catalogSettings.IgnoreStoreLimitations)
                 {
                     //Store mapping
-                    // TODO : Mehmet -> Burayı açıkla.
                     query = from c in query
                             join sm in _storeMappingRepository.Table
                                on new
                                {
                                    c1 = c.Id,
-                                   c2 = nameof(Data.Domain.Slider)
+                                   c2 = nameof(Slider)
                                }
                                 equals
                                 new
@@ -116,30 +119,30 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Services
             return await query.ToPagedListAsync(pageIndex, pageSize);
         }
 
-        public async Task<Data.Domain.Slider> GetSliderByIdAsync(int sliderId)
+        public async Task<Slider> GetSliderByIdAsync(int sliderId)
         {
             return await _sliderRepository.GetByIdAsync(sliderId);
         }
 
-        public async Task InsertSliderAsync(Data.Domain.Slider slider)
+        public async Task InsertSliderAsync(Slider slider)
         {
             await _sliderRepository.InsertAsync(slider);
         }
 
-        public async Task UpdateSliderAsync(Data.Domain.Slider slider)
+        public async Task UpdateSliderAsync(Slider slider)
         {
             await _sliderRepository.UpdateAsync(slider);
         }
 
-        public async Task DeleteSliderAsync(Data.Domain.Slider slider)
+        public async Task DeleteSliderAsync(Slider slider)
         {
             await _sliderRepository.DeleteAsync(slider);
         }
-        public async Task DeleteSliderAsync(IList<Data.Domain.Slider> sliders)
+        public async Task DeleteSliderAsync(IList<Slider> sliders)
         {
             await _sliderRepository.DeleteAsync(sliders);
         }
-        public async Task<IList<Data.Domain.Slider>> GetSliderByIdsAsync(ICollection<int> sliderIds)
+        public async Task<IList<Slider>> GetSliderByIdsAsync(ICollection<int> sliderIds)
         {
             var query = _sliderRepository.Table;
 
@@ -150,29 +153,88 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Services
         #endregion
 
         #region SliderItem
-        public Task<IList<SliderItem>> GetAllSliderItemsBySliderIdAsync(int sliderId)
+        public async Task<IPagedList<SliderItem>> GetAllSliderItemsAsync(
+            int sliderId = 0,
+            int storeId = 0,
+            int pageIndex = 0,
+            int pageSize = int.MaxValue,
+            bool showHidden = false,
+            bool? overridePublished = null)
         {
-            throw new System.NotImplementedException();
+            var query = _sliderItemRepository.Table;
+
+            if (!showHidden)
+                query = query.Where(s => s.Published);
+
+            query = query.OrderBy(p => p.DisplayOrder).ThenBy(p => p.Id);
+
+            if ((storeId > 0 && !_catalogSettings.IgnoreStoreLimitations) || (!showHidden && !_catalogSettings.IgnoreAcl))
+            {
+                if (!showHidden && !_catalogSettings.IgnoreAcl)
+                {
+                    //ACL (access control list)
+                    var allowedCustomerRolesIds = await _customerService.GetCustomerRoleIdsAsync(await _workContext.GetCurrentCustomerAsync());
+                    query = from c in query
+                            join acl in _aclRepository.Table
+                                on new
+                                {
+                                    c1 = c.Id,
+                                    c2 = nameof(SliderItem)
+                                }
+                                equals
+                                new
+                                {
+                                    c1 = acl.EntityId,
+                                    c2 = acl.EntityName
+                                } into c_acl
+                            from acl in Enumerable.DefaultIfEmpty<AclRecord>(c_acl)
+                            where !c.SubjectToAcl || allowedCustomerRolesIds.Contains((int)acl.CustomerRoleId)
+                            select c;
+                }
+
+                if (storeId > 0 && !_catalogSettings.IgnoreStoreLimitations)
+                {
+                    //Store mapping
+                    query = from c in query
+                            join sm in _storeMappingRepository.Table
+                               on new
+                               {
+                                   c1 = c.Id,
+                                   c2 = nameof(SliderItem)
+                               }
+                                equals
+                                new
+                                {
+                                    c1 = sm.EntityId,
+                                    c2 = sm.EntityName
+                                } into c_sm
+                            from sm in Enumerable.DefaultIfEmpty<StoreMapping>(c_sm)
+                            where !c.LimitedToStores || storeId == sm.StoreId
+                            select c;
+                }
+            }
+
+            return await query.ToPagedListAsync(pageIndex, pageSize);
         }
 
-        public Task<SliderItem> GetSliderItemByIdAsync(int sliderItemId)
+        public async Task<SliderItem> GetSliderItemByIdAsync(int sliderItemId)
         {
-            throw new System.NotImplementedException();
+            return await _sliderItemRepository.GetByIdAsync(sliderItemId);
         }
 
-        public Task InsertSliderItemAsync(SliderItem sliderItem)
+        public async Task InsertSliderItemAsync(SliderItem sliderItem)
         {
-            throw new System.NotImplementedException();
+            await _sliderItemRepository.InsertAsync(sliderItem);
         }
 
-        public Task UpdateSliderItemAsync(SliderItem sliderItem)
+        public async Task UpdateSliderItemAsync(SliderItem sliderItem)
         {
-            throw new System.NotImplementedException();
+            await _sliderItemRepository.UpdateAsync(sliderItem);
         }
 
-        public Task DeleteSliderItemAsync(SliderItem sliderItem)
+        public async Task DeleteSliderItemAsync(SliderItem sliderItem)
         {
-            throw new System.NotImplementedException();
+            await _sliderItemRepository.DeleteAsync(sliderItem);
         }
         #endregion
     }
