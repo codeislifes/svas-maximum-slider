@@ -62,8 +62,15 @@ namespace Nop.Plugin.Widgets.SwiperSlider
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Menu.Root", "Swiper Slider" },
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Menu.Root.Configuration", "Configuration" },
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Menu.Root.List", "Slider List" },
+                
+                // Notification Messages
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.Added", "{0} has beed added."},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.NotAdded", "Swiper slider could not be added."},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.Updated", "{0} has beed updated."},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.Deleted", "{0} has beed deleted."},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.AllDeleted", "The selected sliders are deleted."},
 
-                // General 
+                // General
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.NoCustomerRolesAvailable", "No customer roles available"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.NoStoresAvailable", "No stores available"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.BackToList", "back to list"},
