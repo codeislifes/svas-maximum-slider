@@ -1,16 +1,16 @@
 ﻿@model SwiperSliderModel
 
 @{
-    ViewBag.PageTitle = T("Nop.Plugin.Widgets.SwiperSlider.Sliders.AddNew").Text;
+    ViewBag.PageTitle = T("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Create.PageTitle").Text;
 }
 
 <form asp-controller="SwiperSlider" asp-action="Create" method="post" id="slider-form">
     <div class="content-header clearfix">
         <h1 class="float-left">
-            @T("Nop.Plugin.Widgets.SwiperSlider.Sliders.AddNew")
+            @T("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Create.Title")
             <small>
                 <i class="fa fa-arrow-circle-left"></i>
-                <a asp-action="List">@T("Nop.Plugin.Widgets.SwiperSlider.Sliders.BackToList")</a>
+                <a asp-action="List">@T("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.BackToList")</a>
             </small>
         </h1>
         <div class="float-right">

@@ -52,45 +52,92 @@ namespace Nop.Plugin.Widgets.SwiperSlider
 
             await _settingService.SaveSettingAsync(settings);
 
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.ContainerCssSelector", "Container Css Selector");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.ContainerCssSelector.Hint", "Swiper Slider kapsayan html elementine ait css selector girin. id için #selector, class için .selector!");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.PaginationCssSelector", "Pagination Css Selector");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.NavigationNextCssSelector", "Navigation Next Css Selector");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.NavigationPrevCssSelector", "Navigation Prev Css Selector");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.ScrollBarCssSelector", "Scroll Bar Css Selector");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.Direction", "Direction");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.InitialSlide", "Initial Slide");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.Speed", "Speed");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.Loop", "Loop");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.LoopFillGroupWithBlankEnabled", "Loop Fill Group With Blank Enabled");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.PaginationEnabled", "Pagination Enabled");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.PaginationClickableEnabled", "Pagination Clickable Enabled");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.NavigationEnabled", "Navigation Enabled");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.ScrollBarEnabled", "Scroll Bar Enabled");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.AutoPlayEnabled", "Auto Play Enabled");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.AutoPlayDelay", "Auto Play Delay");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.AutoPlayDisableOnInteraction", "Auto Play Disable On Interaction");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.SlidesPerGroup", "Slides Per Group");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.SpaceBetween", "Space Between");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.SlidesPerView", "Slides Per View");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.SlidesPerColumn", "Slides Per Column");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.FreeModeEnabled", "Free Mode Enabled");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.DynamicBulletsEnabled", "Dynamic Bullets Enabled");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.CenteredSlidesEnabled", "Centered Slides Enabled");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Models.CustomCss", "Custom Css");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Configuration.SliderList", "Slider List");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.configuration.title", "Configuration");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Sliders", "Sliders");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Sliders.AddNew", "Add a New Slider");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Sliders.Edit", "Update {0}");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Sliders.BackToList", "back to list");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Sliders.Info", "Info");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Sliders.Mappings", "Mappings");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Sliders.Fields.Name", "Name");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Sliders.Fields.Published", "Published");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Sliders.Fields.DisplayOrder", "Display Order");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Sliders.Fields.AclCustomerRoles", "Customer Roles");
-            await _localizationService.AddOrUpdateLocaleResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Sliders.Fields.LimitedToStores", "Limited To Stores");
+            var resources = new Dictionary<string, string>
+            {
+                // General 
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.NoCustomerRolesAvailable", "No customer roles available"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.NoStoresAvailable", "No stores available"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.BackToList", "back to list"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Cards.Info.Title", "Info"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Cards.Mappings.Title", "Mappings"},
+
+                // Configuration
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Cards.General.Title", "General"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.ContainerCssSelector", "Container Css Selector"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.ContainerCssSelector.Hint", "Swiper Slider kapsayan html elementine ait css selector girin. id için #selector, class için .selector!"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.PaginationCssSelector", "Pagination Css Selector"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.PaginationCssSelector.Hint", "Pagination Css Selector"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.NavigationNextCssSelector", "Navigation Next Css Selector"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.NavigationNextCssSelector.Hint", "Navigation Next Css Selector"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.NavigationPrevCssSelector", "Navigation Prev Css Selector"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.NavigationPrevCssSelector.Hint", "Navigation Prev Css Selector"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.ScrollBarCssSelector", "Scroll Bar Css Selector"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.ScrollBarCssSelector.Hint", "Scroll Bar Css Selector"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.Direction", "Direction"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.Direction.Hint", "Direction"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.InitialSlide", "Initial Slide"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.InitialSlide.Hint", "Initial Slide"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.Speed", "Speed"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.Speed.Hint", "Speed"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.Loop", "Loop"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.Loop.Hint", "Loop"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.LoopFillGroupWithBlankEnabled", "Loop Fill Group With Blank Enabled"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.LoopFillGroupWithBlankEnabled.Hint", "Loop Fill Group With Blank Enabled"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.PaginationEnabled", "Pagination Enabled"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.PaginationEnabled.Hint", "Pagination Enabled"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.PaginationClickableEnabled", "Pagination Clickable Enabled"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.PaginationClickableEnabled.Hint", "Pagination Clickable Enabled"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.NavigationEnabled", "Navigation Enabled"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.NavigationEnabled.Hint", "Navigation Enabled"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.ScrollBarEnabled", "Scroll Bar Enabled"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.ScrollBarEnabled.Hint", "Scroll Bar Enabled"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.AutoPlayEnabled", "Auto Play Enabled"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.AutoPlayEnabled.Hint", "Auto Play Enabled"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.AutoPlayDelay", "Auto Play Delay"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.AutoPlayDelay.Hint", "Auto Play Delay"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.AutoPlayDisableOnInteraction", "Auto Play Disable On Interaction"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.AutoPlayDisableOnInteraction.Hint", "Auto Play Disable On Interaction"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.SlidesPerGroup", "Slides Per Group"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.SlidesPerGroup.Hint", "Slides Per Group"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.SpaceBetween", "Space Between"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.SpaceBetween.Hint", "Space Between"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.SlidesPerView", "Slides Per View"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.SlidesPerView.Hint", "Slides Per View"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.SlidesPerColumn", "Slides Per Column"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.SlidesPerColumn.Hint", "Slides Per Column"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.FreeModeEnabled", "Free Mode Enabled"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.FreeModeEnabled.Hint", "Free Mode Enabled"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.DynamicBulletsEnabled", "Dynamic Bullets Enabled"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.DynamicBulletsEnabled.Hint", "Dynamic Bullets Enabled"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.CenteredSlidesEnabled", "Centered Slides Enabled"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.CenteredSlidesEnabled.Hint", "Centered Slides Enabled"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.CustomCss", "Custom Css"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.CustomCss.Hint", "Custom Css"},
+
+                // Pages
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.List.PageTitle", "Swiper Sliders"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.List.Title", "Swiper Slider List"},
+
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Create.PageTitle", "Create Swiper Slider"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Create.Title", "Add a New Swiper Slider"},
+
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Edit.PageTitle", "Update {0} - Swiper Slider"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Edit.Title", "Update Swiper Slider - {0}"},
+
+                // Field Names
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.Name", "Slider Name"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.Name.Hint", "Slider Name"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.DisplayOrder", "Display Order"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.DisplayOrder.Hint", "Display Order"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.Published", "Published"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.Published.Hint", "Published"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.AclCustomerRoles", "Customer Roles"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.AclCustomerRoles.Hint", "Customer Roles"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.LimitedToStores", "Limited To Stores"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.LimitedToStores.Hint", "Limited To Stores"}
+            };
+
+            await _localizationService.AddOrUpdateLocaleResourceAsync(resources);
         }
 
         public override async Task UninstallAsync()

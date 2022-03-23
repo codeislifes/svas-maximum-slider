@@ -5,8 +5,8 @@
 @{
     Layout = "_ConfigurePlugin";
 
-    const string hideConfigureBlockAttributeName = "SwiperSlider.Configuration.HideConfigureBlock";
-    var hideConfigureBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideConfigureBlockAttributeName);
+    const string hideGeneralBlockAttributeName = "Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.HideGeneralBlock";
+    var hideGeneralBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideGeneralBlockAttributeName);
 }
 <script>
     $(document).ready(function() {
@@ -54,12 +54,12 @@
     <div class="container-fluid">
         <div class="form-horizontal">
             <form asp-controller="SwiperSlider" asp-action="Configure" method="post">
-                <nop-cards id="category-panels">
+                <nop-cards id="swiper-slider-panels">
                     <nop-card asp-name="configure-info"
                               asp-icon="fa fa-info"
-                              asp-title="@T("Nop.Plugin.Widgets.SwiperSlider.Configuration.Title")"
-                              asp-hide-block-attribute-name="@hideConfigureBlockAttributeName"
-                              asp-hide="@hideConfigureBlock"
+                              asp-title="@T("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Cards.General.Title")"
+                              asp-hide-block-attribute-name="@hideGeneralBlockAttributeName"
+                              asp-hide="@hideGeneralBlock"
                               asp-advanced="false">
                         <div class="card-body">
                             <div class="form-group row">
