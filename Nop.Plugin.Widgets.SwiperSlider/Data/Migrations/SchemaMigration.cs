@@ -3,9 +3,9 @@ using Nop.Data.Extensions;
 using Nop.Data.Migrations;
 using Nop.Plugin.Widgets.SwiperSlider.Data.Domain;
 
-namespace Nop.Plugin.Widgets.SwiperSlider.Data
+namespace Nop.Plugin.Widgets.SwiperSlider.Data.Migrations
 {
-    [NopMigration("2020/10/23 10:56:00", "codeislife.cilslider base schema", MigrationProcessType.Installation)]
+    [NopMigration("2022-03-23 04:05:00", "Nop.Plugin.Widgets.SwiperSlider base schema", MigrationProcessType.Installation)]
     public class SchemaMigration : AutoReversingMigration
     {
         protected IMigrationManager _migrationManager;

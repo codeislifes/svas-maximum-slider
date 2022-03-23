@@ -11,6 +11,7 @@ using Nop.Plugin.Widgets.SwiperSlider.Services;
 using Nop.Services.Configuration;
 using Nop.Services.Customers;
 using Nop.Services.Localization;
+using Nop.Services.Logging;
 using Nop.Services.Messages;
 using Nop.Services.Security;
 using Nop.Services.Stores;
@@ -32,48 +33,52 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
         #region Fields
         private readonly IAclService _aclService;
         private readonly IStoreService _storeService;
-        private readonly ISwiperSliderService _sliderService;
         private readonly ISettingService _settingService;
         private readonly CatalogSettings _catalogSettings;
         private readonly ICustomerService _customerService;
-        private readonly SwiperSliderSettings _cilSliderSettings;
         private readonly IPermissionService _permissionService;
-        private readonly ISwiperSliderModelFactory _sliderModelFactory;
+        private readonly ISwiperSliderService _swiperSliderService;
         private readonly INotificationService _notificationService;
-        private readonly ILocalizationService _localizationService;
         private readonly IStoreMappingService _storeMappingService;
+        private readonly ILocalizationService _localizationService;
+        private readonly SwiperSliderSettings _swiperSliderSettings;
         private readonly IBaseAdminModelFactory _baseAdminModelFactory;
+        private readonly ICustomerActivityService _customerActivityService;
+        private readonly ISwiperSliderModelFactory _swiperSliderModelFactory;
         #endregion
 
         #region Ctor
         public SwiperSliderController(
             IAclService aclService,
             IStoreService storeService,
-            ISwiperSliderService sliderService,
             ISettingService settingService,
             CatalogSettings catalogSettings,
             ICustomerService customerService,
-            SwiperSliderSettings cilSliderSettings,
             IPermissionService permissionService,
-            ISwiperSliderModelFactory sliderModelFactory,
+            ISwiperSliderService swiperSliderService,
             INotificationService notificationService,
             ILocalizationService localizationService,
             IStoreMappingService storeMappingService,
-            IBaseAdminModelFactory baseAdminModelFactory)
+            SwiperSliderSettings swiperSliderSettings,
+            IBaseAdminModelFactory baseAdminModelFactory,
+            ICustomerActivityService customerActivityService,
+            ISwiperSliderModelFactory swiperSliderModelFactory
+        )
         {
             _aclService = aclService;
             _storeService = storeService;
-            _sliderService = sliderService;
             _settingService = settingService;
             _catalogSettings = catalogSettings;
             _customerService = customerService;
-            _cilSliderSettings = cilSliderSettings;
             _permissionService = permissionService;
-            _sliderModelFactory = sliderModelFactory;
+            _swiperSliderService = swiperSliderService;
             _notificationService = notificationService;
-            _localizationService = localizationService;
             _storeMappingService = storeMappingService;
+            _localizationService = localizationService;
+            _swiperSliderSettings = swiperSliderSettings;
             _baseAdminModelFactory = baseAdminModelFactory;
+            _customerActivityService = customerActivityService;
+            _swiperSliderModelFactory = swiperSliderModelFactory;
         }
         #endregion
 
@@ -81,7 +86,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
         protected virtual async Task SaveSliderAclAsync(Data.Domain.Slider slider, SwiperSliderModel model)
         {
             slider.SubjectToAcl = model.SelectedCustomerRoleIds.Any();
-            await _sliderService.UpdateSliderAsync(slider);
+            await _swiperSliderService.UpdateSliderAsync(slider);
 
             var existingAclRecords = await _aclService.GetAclRecordsAsync(slider);
             var allCustomerRoles = await _customerService.GetAllCustomerRolesAsync(true);
@@ -106,7 +111,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
         protected virtual async Task SaveSliderStoreMappingsAsync(Data.Domain.Slider slider, SwiperSliderModel model)
         {
             slider.LimitedToStores = model.SelectedStoreIds.Any();
-            await _sliderService.UpdateSliderAsync(slider);
+            await _swiperSliderService.UpdateSliderAsync(slider);
 
             var existingStoreMappings = await _storeMappingService.GetStoreMappingsAsync(slider);
             var allStores = await _storeService.GetAllStoresAsync();
@@ -134,31 +139,31 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
         {
             var model = new SwiperSliderConfigurationModel
             {
-                ContainerCssSelector = _cilSliderSettings.ContainerCssSelector,
-                PaginationCssSelector = _cilSliderSettings.PaginationCssSelector,
-                NavigationNextCssSelector = _cilSliderSettings.NavigationNextCssSelector,
-                NavigationPrevCssSelector = _cilSliderSettings.NavigationPrevCssSelector,
-                ScrollBarCssSelector = _cilSliderSettings.ScrollBarCssSelector,
-                Direction = _cilSliderSettings.Direction,
-                DirectionId = Convert.ToInt32(_cilSliderSettings.Direction),
-                InitialSlide = _cilSliderSettings.InitialSlide,
-                Speed = _cilSliderSettings.Speed,
-                Loop = _cilSliderSettings.Loop,
-                LoopFillGroupWithBlankEnabled = _cilSliderSettings.LoopFillGroupWithBlankEnabled,
-                PaginationEnabled = _cilSliderSettings.PaginationEnabled,
-                PaginationClickableEnabled = _cilSliderSettings.PaginationClickableEnabled,
-                NavigationEnabled = _cilSliderSettings.NavigationEnabled,
-                ScrollBarEnabled = _cilSliderSettings.ScrollBarEnabled,
-                AutoPlayEnabled = _cilSliderSettings.AutoPlayEnabled,
-                AutoPlayDelay = _cilSliderSettings.AutoPlayDelay,
-                AutoPlayDisableOnInteraction = _cilSliderSettings.AutoPlayDisableOnInteraction,
-                SlidesPerGroup = _cilSliderSettings.SlidesPerGroup,
-                SpaceBetween = _cilSliderSettings.SpaceBetween,
-                SlidesPerView = _cilSliderSettings.SlidesPerView,
-                FreeModeEnabled = _cilSliderSettings.FreeModeEnabled,
-                DynamicBulletsEnabled = _cilSliderSettings.DynamicBulletsEnabled,
-                CenteredSlidesEnabled = _cilSliderSettings.CenteredSlidesEnabled,
-                CustomCss = _cilSliderSettings.CustomCss
+                ContainerCssSelector = _swiperSliderSettings.ContainerCssSelector,
+                PaginationCssSelector = _swiperSliderSettings.PaginationCssSelector,
+                NavigationNextCssSelector = _swiperSliderSettings.NavigationNextCssSelector,
+                NavigationPrevCssSelector = _swiperSliderSettings.NavigationPrevCssSelector,
+                ScrollBarCssSelector = _swiperSliderSettings.ScrollBarCssSelector,
+                Direction = _swiperSliderSettings.Direction,
+                DirectionId = Convert.ToInt32(_swiperSliderSettings.Direction),
+                InitialSlide = _swiperSliderSettings.InitialSlide,
+                Speed = _swiperSliderSettings.Speed,
+                Loop = _swiperSliderSettings.Loop,
+                LoopFillGroupWithBlankEnabled = _swiperSliderSettings.LoopFillGroupWithBlankEnabled,
+                PaginationEnabled = _swiperSliderSettings.PaginationEnabled,
+                PaginationClickableEnabled = _swiperSliderSettings.PaginationClickableEnabled,
+                NavigationEnabled = _swiperSliderSettings.NavigationEnabled,
+                ScrollBarEnabled = _swiperSliderSettings.ScrollBarEnabled,
+                AutoPlayEnabled = _swiperSliderSettings.AutoPlayEnabled,
+                AutoPlayDelay = _swiperSliderSettings.AutoPlayDelay,
+                AutoPlayDisableOnInteraction = _swiperSliderSettings.AutoPlayDisableOnInteraction,
+                SlidesPerGroup = _swiperSliderSettings.SlidesPerGroup,
+                SpaceBetween = _swiperSliderSettings.SpaceBetween,
+                SlidesPerView = _swiperSliderSettings.SlidesPerView,
+                FreeModeEnabled = _swiperSliderSettings.FreeModeEnabled,
+                DynamicBulletsEnabled = _swiperSliderSettings.DynamicBulletsEnabled,
+                CenteredSlidesEnabled = _swiperSliderSettings.CenteredSlidesEnabled,
+                CustomCss = _swiperSliderSettings.CustomCss
             };
 
             return View(model);
@@ -167,32 +172,32 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Configure(SwiperSliderConfigurationModel model)
         {
-            _cilSliderSettings.ContainerCssSelector = model.ContainerCssSelector;
-            _cilSliderSettings.PaginationCssSelector = model.PaginationCssSelector;
-            _cilSliderSettings.NavigationNextCssSelector = model.NavigationNextCssSelector;
-            _cilSliderSettings.NavigationPrevCssSelector = model.NavigationPrevCssSelector;
-            _cilSliderSettings.ScrollBarCssSelector = model.ScrollBarCssSelector;
-            _cilSliderSettings.Direction = (Direction)Enum.Parse(typeof(Direction), model.DirectionId.ToString());
-            _cilSliderSettings.InitialSlide = model.InitialSlide;
-            _cilSliderSettings.Speed = model.Speed;
-            _cilSliderSettings.Loop = model.Loop;
-            _cilSliderSettings.LoopFillGroupWithBlankEnabled = model.LoopFillGroupWithBlankEnabled;
-            _cilSliderSettings.PaginationEnabled = model.PaginationEnabled;
-            _cilSliderSettings.PaginationClickableEnabled = model.PaginationClickableEnabled;
-            _cilSliderSettings.NavigationEnabled = model.NavigationEnabled;
-            _cilSliderSettings.ScrollBarEnabled = model.ScrollBarEnabled;
-            _cilSliderSettings.AutoPlayEnabled = model.AutoPlayEnabled;
-            _cilSliderSettings.AutoPlayDelay = model.AutoPlayDelay;
-            _cilSliderSettings.AutoPlayDisableOnInteraction = model.AutoPlayDisableOnInteraction;
-            _cilSliderSettings.SlidesPerGroup = model.SlidesPerGroup;
-            _cilSliderSettings.SpaceBetween = model.SpaceBetween;
-            _cilSliderSettings.SlidesPerView = model.SlidesPerView;
-            _cilSliderSettings.FreeModeEnabled = model.FreeModeEnabled;
-            _cilSliderSettings.DynamicBulletsEnabled = model.DynamicBulletsEnabled;
-            _cilSliderSettings.CenteredSlidesEnabled = model.CenteredSlidesEnabled;
-            _cilSliderSettings.CustomCss = model.CustomCss;
+            _swiperSliderSettings.ContainerCssSelector = model.ContainerCssSelector;
+            _swiperSliderSettings.PaginationCssSelector = model.PaginationCssSelector;
+            _swiperSliderSettings.NavigationNextCssSelector = model.NavigationNextCssSelector;
+            _swiperSliderSettings.NavigationPrevCssSelector = model.NavigationPrevCssSelector;
+            _swiperSliderSettings.ScrollBarCssSelector = model.ScrollBarCssSelector;
+            _swiperSliderSettings.Direction = (Direction)Enum.Parse(typeof(Direction), model.DirectionId.ToString());
+            _swiperSliderSettings.InitialSlide = model.InitialSlide;
+            _swiperSliderSettings.Speed = model.Speed;
+            _swiperSliderSettings.Loop = model.Loop;
+            _swiperSliderSettings.LoopFillGroupWithBlankEnabled = model.LoopFillGroupWithBlankEnabled;
+            _swiperSliderSettings.PaginationEnabled = model.PaginationEnabled;
+            _swiperSliderSettings.PaginationClickableEnabled = model.PaginationClickableEnabled;
+            _swiperSliderSettings.NavigationEnabled = model.NavigationEnabled;
+            _swiperSliderSettings.ScrollBarEnabled = model.ScrollBarEnabled;
+            _swiperSliderSettings.AutoPlayEnabled = model.AutoPlayEnabled;
+            _swiperSliderSettings.AutoPlayDelay = model.AutoPlayDelay;
+            _swiperSliderSettings.AutoPlayDisableOnInteraction = model.AutoPlayDisableOnInteraction;
+            _swiperSliderSettings.SlidesPerGroup = model.SlidesPerGroup;
+            _swiperSliderSettings.SpaceBetween = model.SpaceBetween;
+            _swiperSliderSettings.SlidesPerView = model.SlidesPerView;
+            _swiperSliderSettings.FreeModeEnabled = model.FreeModeEnabled;
+            _swiperSliderSettings.DynamicBulletsEnabled = model.DynamicBulletsEnabled;
+            _swiperSliderSettings.CenteredSlidesEnabled = model.CenteredSlidesEnabled;
+            _swiperSliderSettings.CustomCss = model.CustomCss;
 
-            await _settingService.SaveSettingAsync(_cilSliderSettings);
+            await _settingService.SaveSettingAsync(_swiperSliderSettings);
             await _settingService.ClearCacheAsync();
 
             _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Plugins.Saved"));
@@ -204,7 +209,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
         #region List
         public async Task<IActionResult> Index()
         {
-            return RedirectToAction("List");
+            return await Task.FromResult(RedirectToAction("List"));
         }
 
         public async Task<IActionResult> List()
@@ -239,14 +244,13 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> List(SwiperSliderSearchModel searchModel)
         {
-            var sliders = await _sliderService
-                .GetAllSlidersAsync(
+            var sliders = await _swiperSliderService.GetAllSlidersAsync(
                 name: searchModel.SearchSliderName,
                 storeId: searchModel.SearchStoreId,
                 pageIndex: (searchModel.Page - 1),
                 pageSize: searchModel.PageSize,
                 showHidden: true,
-                overridePublished: (searchModel.SearchPublishedId == 0 ? null : (bool?)(searchModel.SearchPublishedId == 1)));
+                overridePublished: (searchModel.SearchPublishedId == 0 ? null : searchModel.SearchPublishedId == 1));
 
             var model = new SwiperSliderListModel().PrepareToGrid(searchModel, sliders, () =>
             {
@@ -267,7 +271,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
             if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageSettings))
                 return AccessDeniedView();
 
-            var model = await _sliderModelFactory.PrepareSliderModelAsync(new SwiperSliderModel(), null);
+            var model = await _swiperSliderModelFactory.PrepareSliderModelAsync(new SwiperSliderModel(), null);
 
             return View(model);
         }
@@ -281,7 +285,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var slider = model.ToEntity<Data.Domain.Slider>();
-                await _sliderService.InsertSliderAsync(slider);
+                await _swiperSliderService.InsertSliderAsync(slider);
 
                 await SaveSliderAclAsync(slider, model);
 
@@ -289,6 +293,10 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
 
                 if (slider.Id > 0)
                 {
+                    //activity log
+                    await _customerActivityService.InsertActivityAsync("AddNewSwiperSlider",
+                        string.Format(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.ActivityLog.AddNewSwiperSlider"), slider.Name), slider);
+
                     var message = await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.Added");
                     _notificationService.SuccessNotification(string.Format(message, slider.Name));
                 }
@@ -302,7 +310,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
                 return RedirectToAction("Edit", new { id = slider.Id });
             }
 
-            model = await _sliderModelFactory.PrepareSliderModelAsync(model, null);
+            model = await _swiperSliderModelFactory.PrepareSliderModelAsync(model, null);
 
             return View(model);
         }
@@ -312,11 +320,11 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
             if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageSettings))
                 return AccessDeniedView();
 
-            var slider = await _sliderService.GetSliderByIdAsync(id);
+            var slider = await _swiperSliderService.GetSliderByIdAsync(id);
             if (slider == null)
                 return RedirectToAction("List");
 
-            var model = await _sliderModelFactory.PrepareSliderModelAsync(null, slider);
+            var model = await _swiperSliderModelFactory.PrepareSliderModelAsync(null, slider);
 
             return View(model);
         }
@@ -327,17 +335,20 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
             if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageSettings))
                 return AccessDeniedView();
 
-            var slider = await _sliderService.GetSliderByIdAsync(model.Id);
+            var slider = await _swiperSliderService.GetSliderByIdAsync(model.Id);
             if (slider == null)
                 return RedirectToAction("List");
 
             if (ModelState.IsValid)
             {
                 slider = model.ToEntity(slider);
-                await _sliderService.UpdateSliderAsync(slider);
+                await _swiperSliderService.UpdateSliderAsync(slider);
 
                 await SaveSliderAclAsync(slider, model);
                 await SaveSliderStoreMappingsAsync(slider, model);
+
+                await _customerActivityService.InsertActivityAsync("EditSwiperSlider",
+                    string.Format(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.ActivityLog.EditSwiperSlider"), slider.Name), slider);
 
                 var message = await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.Updated");
                 _notificationService.SuccessNotification(string.Format(message, slider.Name));
@@ -348,7 +359,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
                 return RedirectToAction("Edit", new { id = slider.Id });
             }
 
-            model = await _sliderModelFactory.PrepareSliderModelAsync(model, slider);
+            model = await _swiperSliderModelFactory.PrepareSliderModelAsync(model, slider);
 
             return View(model);
         }
@@ -361,11 +372,14 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
                 return AccessDeniedView();
 
             //try to get a category with the specified id
-            var slider = await _sliderService.GetSliderByIdAsync(id);
+            var slider = await _swiperSliderService.GetSliderByIdAsync(id);
             if (slider == null)
                 return RedirectToAction("List");
 
-            await _sliderService.DeleteSliderAsync(slider);
+            await _swiperSliderService.DeleteSliderAsync(slider);
+
+            await _customerActivityService.InsertActivityAsync("DeleteSwiperSlider",
+                string.Format(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.ActivityLog.DeleteSwiperSlider"), slider.Name), slider);
 
             var message = await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.Deleted");
             _notificationService.SuccessNotification(string.Format(message, slider.Name));
@@ -382,8 +396,11 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
             if (selectedIds == null || selectedIds.Count == 0)
                 return NoContent();
 
-            var sliders = await _sliderService.GetSliderByIdsAsync(selectedIds);
-            await _sliderService.DeleteSliderAsync(sliders);
+            var sliders = await _swiperSliderService.GetSliderByIdsAsync(selectedIds);
+            await _swiperSliderService.DeleteSliderAsync(sliders);
+
+            await _customerActivityService.InsertActivityAsync("DeleteSwiperSliders",
+                string.Format(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.ActivityLog.DeleteSwiperSliders"), string.Join(',', sliders.Select(p => p.Id))));
 
             _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.AllDeleted"));
 
