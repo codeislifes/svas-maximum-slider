@@ -1,6 +1,10 @@
 ﻿nopCommerce Swiper Slider Plugin
 ===========
 
+will be change the plugin name at soon... 
+
+new name : SVAS Maximum Slider
+
 code is life site
 [https://www.youtube.com/codeislifes](https://www.youtube.com/codeislifes)
 
