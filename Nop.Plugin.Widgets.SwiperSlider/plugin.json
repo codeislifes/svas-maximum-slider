@@ -2,7 +2,7 @@
   "Group": "code is life",
   "FriendlyName": "Swiper Slider",
   "SystemName": "Nop.Plugin.Widgets.SwiperSlider",
-  "Version": "4.50",
+  "Version": "4.50.1",
   "SupportedVersions": [ "4.50" ],
   "Author": "code is life team",
   "DisplayOrder": 1,
