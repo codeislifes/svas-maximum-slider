@@ -2,10 +2,10 @@
 
 @{
     var currentCustomer = await workContext.GetCurrentCustomerAsync();
-    const string hideInfoBlockAttributeName = "SliderPage.Create.HideInfoBlock";
+    const string hideInfoBlockAttributeName = "Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.HideInfoBlock";
     var hideInfoBlock = await genericAttributeService.GetAttributeAsync<bool>(currentCustomer, hideInfoBlockAttributeName, defaultValue: true);
 
-    const string hideMappingsBlockAttributeName = "SliderPage.Create.HideMappingsBlock";
+    const string hideMappingsBlockAttributeName = "Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.HideMappingsBlock";
     var hideMappingsBlock = await genericAttributeService.GetAttributeAsync<bool>(currentCustomer, hideMappingsBlockAttributeName, defaultValue: true);
 }
 
@@ -25,7 +25,7 @@
             <nop-cards id="slider-panels">
                 <nop-card asp-name="slider-info"
                            asp-icon="fa fa-info"
-                           asp-title="@T("Nop.Plugin.Widgets.SwiperSlider.Sliders.Info")"
+                           asp-title="@T("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Cards.Info.Title")"
                            asp-hide-block-attribute-name="@hideInfoBlockAttributeName"
                            asp-hide="@hideInfoBlock"
                            asp-advanced="false">
@@ -34,7 +34,7 @@
 
                 <nop-card asp-name="slider-mapping"
                            asp-icon="fa fa-info"
-                           asp-title="@T("Nop.Plugin.Widgets.SwiperSlider.Sliders.Mappings")"
+                           asp-title="@T("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Cards.Mappings.Title")"
                            asp-hide-block-attribute-name="@hideMappingsBlockAttributeName"
                            asp-hide="@hideMappingsBlock"
                            asp-advanced="true">

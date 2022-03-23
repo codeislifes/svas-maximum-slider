@@ -19,23 +19,23 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Models
             AvailableStores = new List<SelectListItem>();
         }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Sliders.Fields.Name")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.Name")]
         public string Name { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Sliders.Fields.DisplayOrder")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.DisplayOrder")]
         public int DisplayOrder { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Sliders.Fields.Published")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.Published")]
         public bool Published { get; set; }
 
         //ACL (customer roles)
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Sliders.Fields.AclCustomerRoles")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.AclCustomerRoles")]
         public IList<int> SelectedCustomerRoleIds { get; set; }
         public IList<SelectListItem> AvailableCustomerRoles { get; set; }
 
 
         // Store mapping
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Sliders.Fields.LimitedToStores")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.LimitedToStores")]
         public IList<int> SelectedStoreIds { get; set; }
         public IList<SelectListItem> AvailableStores { get; set; }
     }

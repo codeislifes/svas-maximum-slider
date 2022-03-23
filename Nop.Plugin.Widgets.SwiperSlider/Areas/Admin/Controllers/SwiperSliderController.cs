@@ -213,17 +213,17 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
             searchModel.AvailablePublishedOptions.Add(new SelectListItem
             {
                 Value = "0",
-                Text = await _localizationService.GetResourceAsync("Admin.Catalog.Categories.List.SearchPublished.All")
+                Text = await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.List.SearchPublished.All")
             });
             searchModel.AvailablePublishedOptions.Add(new SelectListItem
             {
                 Value = "1",
-                Text = await _localizationService.GetResourceAsync("Admin.Catalog.Categories.List.SearchPublished.PublishedOnly")
+                Text = await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.List.SearchPublished.PublishedOnly")
             });
             searchModel.AvailablePublishedOptions.Add(new SelectListItem
             {
                 Value = "2",
-                Text = await _localizationService.GetResourceAsync("Admin.Catalog.Categories.List.SearchPublished.UnpublishedOnly")
+                Text = await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.List.SearchPublished.UnpublishedOnly")
             });
 
             searchModel.SetGridPageSize();
@@ -283,9 +283,9 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
                 await SaveSliderStoreMappingsAsync(entity, model);
 
                 if (entity.Id > 0)
-                    _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Catalog.Categories.Added"));
+                    _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Added"));
                 else
-                    _notificationService.ErrorNotification(await _localizationService.GetResourceAsync("Admin.Catalog.Categories.NotAdded"));
+                    _notificationService.ErrorNotification(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders..NotAdded"));
 
 
                 if (!continueEditing)
@@ -331,7 +331,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
                 await SaveSliderAclAsync(slider, model);
                 await SaveSliderStoreMappingsAsync(slider, model);
 
-                _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Catalog.Categories.Updated"));
+                _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders..Updated"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -358,7 +358,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
 
             await _sliderService.DeleteSliderAsync(slider);
 
-            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Catalog.Categories.Deleted"));
+            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Deleted"));
 
             return RedirectToAction("List");
         }
@@ -374,6 +374,8 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
 
             var sliders = await _sliderService.GetSliderByIdsAsync(selectedIds);
             await _sliderService.DeleteSliderAsync(sliders);
+
+            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Deleted"));
 
             return Json(new { Result = true });
 

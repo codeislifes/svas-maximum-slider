@@ -1,18 +1,17 @@
 ﻿@model SwiperSliderSearchModel
 
 @{
-    ViewBag.PageTitle = T("Nop.Plugin.Widgets.SwiperSlider.Sliders").Text;
+    ViewBag.PageTitle = T("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.List.PageTitle").Text;
 }
 <div class="content-header clearfix">
     <h1 class="float-left">
-        @T("Nop.Plugin.Widgets.SwiperSlider.Sliders")
+        @T("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.List.Title")
     </h1>
     <div class="float-right">
         <a asp-action="Create" class="btn btn-primary">
             <i class="fa fa-plus-square"></i>
             @T("Admin.Common.AddNew")
         </a>
-
         <button type="button" id="delete-selected" class="btn btn-danger">
             <i class="far fa-trash-alt"></i>
             @T("Admin.Common.Delete.Selected")
@@ -20,7 +19,6 @@
         <nop-action-confirmation asp-button-id="delete-selected" />
     </div>
 </div>
-
 
 <section class="content">
     <div class="container-fluid">
@@ -52,18 +50,18 @@
                                 },
                                 new ColumnProperty(nameof(SwiperSliderModel.Name))
                                 {
-                                    Title = T("Admin.Catalog.Categories.Fields.Name").Text
+                                    Title = T("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.Name").Text
                                 },
                                 new ColumnProperty(nameof(SwiperSliderModel.Published))
                                 {
-                                    Title = T("Admin.Catalog.Categories.Fields.Published").Text,
+                                    Title = T("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.Published").Text,
                                     Width = "100",
                                     ClassName = NopColumnClassDefaults.CenterAll,
                                     Render = new RenderBoolean()
                                 },
                                 new ColumnProperty(nameof(SwiperSliderModel.DisplayOrder))
                                 {
-                                    Title = T("Admin.Catalog.Categories.Fields.DisplayOrder").Text,
+                                    Title = T("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.DisplayOrder").Text,
                                     Width = "150",
                                     ClassName =  NopColumnClassDefaults.CenterAll
                                 },

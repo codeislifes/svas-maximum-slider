@@ -5,84 +5,84 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Models
 {
     public record SwiperSliderConfigurationModel : BaseNopModel
     {
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.ContainerCssSelector")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.ContainerCssSelector")]
         public string ContainerCssSelector { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.PaginationCssSelector")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.PaginationCssSelector")]
         public string PaginationCssSelector { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.NavigationNextCssSelector")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.NavigationNextCssSelector")]
         public string NavigationNextCssSelector { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.NavigationPrevCssSelector")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.NavigationPrevCssSelector")]
         public string NavigationPrevCssSelector { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.ScrollBarCssSelector")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.ScrollBarCssSelector")]
         public string ScrollBarCssSelector { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.Direction")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.Direction")]
         public int DirectionId { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.Direction")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.Direction")]
         public Direction Direction { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.InitialSlide")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.InitialSlide")]
         public int InitialSlide { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.Speed")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.Speed")]
         public int Speed { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.Loop")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.Loop")]
         public bool Loop { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.LoopFillGroupWithBlankEnabled")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.LoopFillGroupWithBlankEnabled")]
         public bool LoopFillGroupWithBlankEnabled { get; set; }
 
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.PaginationEnabled")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.PaginationEnabled")]
         public bool PaginationEnabled { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.PaginationClickableEnabled")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.PaginationClickableEnabled")]
         public bool PaginationClickableEnabled { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.NavigationEnabled")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.NavigationEnabled")]
         public bool NavigationEnabled { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.ScrollBarEnabled")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.ScrollBarEnabled")]
         public bool ScrollBarEnabled { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.AutoPlayEnabled")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.AutoPlayEnabled")]
         public bool AutoPlayEnabled { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.AutoPlayDelay")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.AutoPlayDelay")]
         public int AutoPlayDelay { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.AutoPlayDisableOnInteraction")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.AutoPlayDisableOnInteraction")]
         public bool AutoPlayDisableOnInteraction { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.SlidesPerGroup")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.SlidesPerGroup")]
         public int SlidesPerGroup { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.SpaceBetween")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.SpaceBetween")]
         public int SpaceBetween { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.SlidesPerView")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.SlidesPerView")]
         public string SlidesPerView { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.SlidesPerColumn")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.SlidesPerColumn")]
         public int SlidesPerColumn { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.FreeModeEnabled")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.FreeModeEnabled")]
         public bool FreeModeEnabled { get; set; }
 
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.DynamicBulletsEnabled")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.DynamicBulletsEnabled")]
         public bool DynamicBulletsEnabled { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.CenteredSlidesEnabled")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.CenteredSlidesEnabled")]
         public bool CenteredSlidesEnabled { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Models.CustomCss")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.CustomCss")]
         public string CustomCss { get; set; }
     }
 }
