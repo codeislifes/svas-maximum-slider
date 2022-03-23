@@ -47,3 +47,7 @@ Swiper Slider Plugin for nopCommerce by code is life
 
 #nopcommerce #nop #nopdanışman #nopyazılım #nopdestek #eticaret #opensource #ecommerce #dotnet
 
+![](https://komarev.com/ghpvc/?username=codeislifes&color=red)
+
+<code>(started counting on 23/03/2022)</code>
+
