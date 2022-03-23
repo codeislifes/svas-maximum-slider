@@ -202,6 +202,11 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
         #endregion
 
         #region List
+        public async Task<IActionResult> Index()
+        {
+            return RedirectToAction("List");
+        }
+
         public async Task<IActionResult> List()
         {
             var searchModel = new SwiperSliderSearchModel();
@@ -275,23 +280,26 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                var entity = model.ToEntity<Data.Domain.Slider>();
-                await _sliderService.InsertSliderAsync(entity);
+                var slider = model.ToEntity<Data.Domain.Slider>();
+                await _sliderService.InsertSliderAsync(slider);
 
-                await SaveSliderAclAsync(entity, model);
+                await SaveSliderAclAsync(slider, model);
 
-                await SaveSliderStoreMappingsAsync(entity, model);
+                await SaveSliderStoreMappingsAsync(slider, model);
 
-                if (entity.Id > 0)
-                    _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Added"));
+                if (slider.Id > 0)
+                {
+                    var message = await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.Added");
+                    _notificationService.SuccessNotification(string.Format(message, slider.Name));
+                }
                 else
-                    _notificationService.ErrorNotification(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders..NotAdded"));
+                    _notificationService.ErrorNotification(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.NotAdded"));
 
 
                 if (!continueEditing)
                     return RedirectToAction("List");
 
-                return RedirectToAction("Edit", new { id = entity.Id });
+                return RedirectToAction("Edit", new { id = slider.Id });
             }
 
             model = await _sliderModelFactory.PrepareSliderModelAsync(model, null);
@@ -331,7 +339,8 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
                 await SaveSliderAclAsync(slider, model);
                 await SaveSliderStoreMappingsAsync(slider, model);
 
-                _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders..Updated"));
+                var message = await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.Updated");
+                _notificationService.SuccessNotification(string.Format(message, slider.Name));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -358,7 +367,8 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
 
             await _sliderService.DeleteSliderAsync(slider);
 
-            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Deleted"));
+            var message = await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.Deleted");
+            _notificationService.SuccessNotification(string.Format(message, slider.Name));
 
             return RedirectToAction("List");
         }
@@ -375,7 +385,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
             var sliders = await _sliderService.GetSliderByIdsAsync(selectedIds);
             await _sliderService.DeleteSliderAsync(sliders);
 
-            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Deleted"));
+            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.AllDeleted"));
 
             return Json(new { Result = true });
 

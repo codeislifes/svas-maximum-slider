@@ -1,16 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Routing;
 using Nop.Core;
 using Nop.Services.Cms;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
 using Nop.Services.Plugins;
+using Nop.Web.Framework;
 using Nop.Web.Framework.Infrastructure;
+using Nop.Web.Framework.Menu;
 
 namespace Nop.Plugin.Widgets.SwiperSlider
 {
     // Hello
-    public class SwiperSliderPluginProcessor : BasePlugin, IWidgetPlugin
+    public class SwiperSliderPluginProcessor : BasePlugin, IWidgetPlugin, IAdminMenuPlugin
     {
         #region Fields
         private readonly IWebHelper _webHelper;
@@ -54,7 +58,19 @@ namespace Nop.Plugin.Widgets.SwiperSlider
 
             var resources = new Dictionary<string, string>
             {
-                // General 
+                // Menu 
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Menu.Root", "Swiper Slider" },
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Menu.Root.Configuration", "Configuration" },
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Menu.Root.List", "Slider List" },
+                
+                // Notification Messages
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.Added", "{0} has beed added."},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.NotAdded", "Swiper slider could not be added."},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.Updated", "{0} has beed updated."},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.Deleted", "{0} has beed deleted."},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.Sliders.AllDeleted", "The selected sliders are deleted."},
+
+                // General
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.NoCustomerRolesAvailable", "No customer roles available"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.NoStoresAvailable", "No stores available"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.BackToList", "back to list"},
@@ -115,6 +131,9 @@ namespace Nop.Plugin.Widgets.SwiperSlider
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Fields.CustomCss.Hint", "Custom Css"},
 
                 // Pages
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.PageTitle", "Configure Swiper Slider Plugin"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Title", "Configure Swiper Slider Plugin"},
+
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.List.PageTitle", "Swiper Sliders"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.List.Title", "Swiper Slider List"},
 
@@ -161,6 +180,48 @@ namespace Nop.Plugin.Widgets.SwiperSlider
         public string GetWidgetViewComponentName(string widgetZone)
         {
             return "SwiperSlider";
+        }
+
+        public Task ManageSiteMapAsync(SiteMapNode rootNode)
+        {
+            var menuItem = new SiteMapNode()
+            {
+                SystemName = "Nop.Plugin.Widgets.SwiperSlider.Root",
+                Title = _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Menu.Root").Result,
+                IconClass = "far fa-dot-circle",
+                Visible = true,
+                ChildNodes = new List<SiteMapNode>()
+                {
+                    new SiteMapNode()
+                    {
+                        SystemName = "Nop.Plugin.Widgets.SwiperSlider.Configuration",
+                        Title = _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Menu.Root.Configuration").Result,
+                        ControllerName = "SwiperSlider",
+                        ActionName = "Configure",
+                        IconClass = "far fa-dot-circle",
+                        Visible = true,
+                        RouteValues = new RouteValueDictionary() { { "area", AreaNames.Admin } },
+                    },
+                    new SiteMapNode()
+                    {
+                        SystemName = "Nop.Plugin.Widgets.SwiperSlider.List",
+                        Title = _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Menu.Root.List").Result,
+                        ControllerName = "SwiperSlider",
+                        ActionName = "List",
+                        IconClass = "far fa-dot-circle",
+                        Visible = true,
+                        RouteValues = new RouteValueDictionary() { { "area", AreaNames.Admin } },
+                    }
+                }
+            };
+
+            var pluginNode = rootNode.ChildNodes.FirstOrDefault(x => x.SystemName == "Third party plugins");
+            if (pluginNode != null)
+                pluginNode.ChildNodes.Add(menuItem);
+            else
+                rootNode.ChildNodes.Add(menuItem);
+
+            return Task.CompletedTask;
         }
 
         public bool HideInWidgetList => false;
