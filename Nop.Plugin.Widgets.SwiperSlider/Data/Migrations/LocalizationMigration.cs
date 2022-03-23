@@ -44,8 +44,11 @@ namespace Nop.Plugin.Widgets.SwiperSlider_dev.Data.Migrations
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.NoCustomerRolesAvailable", "No customer roles available"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.NoStoresAvailable", "No stores available"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.BackToList", "back to list"},
+
+                // Cards
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Cards.Info.Title", "Info"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Cards.Mappings.Title", "Mappings"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Cards.Items.Title", "Slider Items"},
 
                 // Configuration
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Cards.General.Title", "General"},
@@ -113,7 +116,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider_dev.Data.Migrations
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Edit.PageTitle", "Update {0} - Swiper Slider"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Edit.Title", "Update Swiper Slider - {0}"},
 
-                // Field Names
+                // Slider Field Names
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.Name", "Slider Name"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.Name.Hint", "Slider Name"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.DisplayOrder", "Display Order"},
@@ -123,7 +126,22 @@ namespace Nop.Plugin.Widgets.SwiperSlider_dev.Data.Migrations
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.AclCustomerRoles", "Customer Roles"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.AclCustomerRoles.Hint", "Customer Roles"},
                 {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.LimitedToStores", "Limited To Stores"},
-                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.LimitedToStores.Hint", "Limited To Stores"}
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.LimitedToStores.Hint", "Limited To Stores"},
+                
+                // Slider Item Field Names
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Slider", "Slider Name"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Slider.Hint", "Slider Name"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Picture", "Picture"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Picture.Hint", "Picture"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.DisplayOrder", "Display Order"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.DisplayOrder.Hint", "Display Order"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Published", "Published"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Published.Hint", "Published"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.AclCustomerRoles", "Customer Roles"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.AclCustomerRoles.Hint", "Customer Roles"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.LimitedToStores", "Limited To Stores"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.LimitedToStores.Hint", "Limited To Stores"},
+                {"Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.SaveBeforeEdit", "You need to save the slider before you can add slider items for this slider page."},
             };
 
             var localizationService = EngineContext.Current.Resolve<ILocalizationService>();

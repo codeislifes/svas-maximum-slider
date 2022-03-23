@@ -19,7 +19,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Models
 
         #region Properties
 
-        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Sliders.List.SearchCategoryName")]
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Sliders.List.SearchSliderName")]
         public string SearchSliderName { get; set; }
 
         [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Sliders.List.SearchPublished")]

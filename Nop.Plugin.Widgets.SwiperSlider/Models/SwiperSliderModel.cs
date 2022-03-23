@@ -17,6 +17,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Models
 
             SelectedStoreIds = new List<int>();
             AvailableStores = new List<SelectListItem>();
+            SwiperSliderItemSearchModel = new SwiperSliderItemSearchModel();
         }
 
         [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.Name")]
@@ -33,10 +34,11 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Models
         public IList<int> SelectedCustomerRoleIds { get; set; }
         public IList<SelectListItem> AvailableCustomerRoles { get; set; }
 
-
         // Store mapping
         [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Fields.LimitedToStores")]
         public IList<int> SelectedStoreIds { get; set; }
         public IList<SelectListItem> AvailableStores { get; set; }
+
+        public SwiperSliderItemSearchModel SwiperSliderItemSearchModel { get; set; }
     }
 }

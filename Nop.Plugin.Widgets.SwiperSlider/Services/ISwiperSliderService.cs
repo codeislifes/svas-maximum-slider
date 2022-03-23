@@ -25,7 +25,13 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Services
         #endregion
 
         #region Slider Items
-        Task<IList<SliderItem>> GetAllSliderItemsBySliderIdAsync(int sliderId);
+        Task<IPagedList<SliderItem>> GetAllSliderItemsAsync(
+            int sliderId = 0,
+            int storeId = 0,
+            int pageIndex = 0,
+            int pageSize = int.MaxValue,
+            bool showHidden = false,
+            bool? overridePublished = null);
         Task<SliderItem> GetSliderItemByIdAsync(int sliderItemId);
         Task InsertSliderItemAsync(SliderItem sliderItem);
         Task UpdateSliderItemAsync(SliderItem sliderItem);

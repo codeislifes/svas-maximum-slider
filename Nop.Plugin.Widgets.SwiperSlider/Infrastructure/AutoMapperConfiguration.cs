@@ -15,6 +15,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Infrastructure
         public void Initialize()
         {
             CreateMap<Slider, SwiperSliderModel>().ReverseMap();
+            CreateMap<SliderItem, SwiperSliderItemModel>().ReverseMap();
         }
 
         public int Order => int.MaxValue;

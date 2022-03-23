@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Core.Domain.Catalog;
 using Nop.Plugin.Widgets.SwiperSlider.Factories;
 using Nop.Plugin.Widgets.SwiperSlider.Models;
@@ -19,8 +18,6 @@ using Nop.Web.Areas.Admin.Factories;
 using Nop.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
-using Nop.Web.Framework.Extensions;
-using Nop.Web.Framework.Models.Extensions;
 using Nop.Web.Framework.Mvc.Filters;
 
 namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
@@ -214,51 +211,20 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
 
         public async Task<IActionResult> List()
         {
-            var searchModel = new SwiperSliderSearchModel();
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
 
-            await _baseAdminModelFactory.PrepareStoresAsync(searchModel.AvailableStores);
-            searchModel.HideStoresList = _catalogSettings.IgnoreStoreLimitations || searchModel.AvailableStores.SelectionIsNotPossible();
-
-            //prepare "published" filter (0 - all; 1 - published only; 2 - unpublished only)
-            searchModel.AvailablePublishedOptions.Add(new SelectListItem
-            {
-                Value = "0",
-                Text = await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.List.SearchPublished.All")
-            });
-            searchModel.AvailablePublishedOptions.Add(new SelectListItem
-            {
-                Value = "1",
-                Text = await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.List.SearchPublished.PublishedOnly")
-            });
-            searchModel.AvailablePublishedOptions.Add(new SelectListItem
-            {
-                Value = "2",
-                Text = await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.List.SearchPublished.UnpublishedOnly")
-            });
-
-            searchModel.SetGridPageSize();
-
-            return View(searchModel);
+            var model = await _swiperSliderModelFactory.PrepareSliderSearchModelAsync(new SwiperSliderSearchModel());
+            return View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> List(SwiperSliderSearchModel searchModel)
         {
-            var sliders = await _swiperSliderService.GetAllSlidersAsync(
-                name: searchModel.SearchSliderName,
-                storeId: searchModel.SearchStoreId,
-                pageIndex: (searchModel.Page - 1),
-                pageSize: searchModel.PageSize,
-                showHidden: true,
-                overridePublished: (searchModel.SearchPublishedId == 0 ? null : searchModel.SearchPublishedId == 1));
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
 
-            var model = new SwiperSliderListModel().PrepareToGrid(searchModel, sliders, () =>
-            {
-                return sliders.Select(slider =>
-                {
-                    return slider.ToModel<SwiperSliderModel>();
-                });
-            });
+            var model = await _swiperSliderModelFactory.PrepareSliderListModelAsync(searchModel);
 
             return Json(model);
         }
@@ -268,7 +234,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
         #region CRUD
         public virtual async Task<IActionResult> Create()
         {
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageSettings))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
             var model = await _swiperSliderModelFactory.PrepareSliderModelAsync(new SwiperSliderModel(), null);
@@ -279,7 +245,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public virtual async Task<IActionResult> Create(SwiperSliderModel model, bool continueEditing)
         {
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageSettings))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
             if (ModelState.IsValid)
@@ -317,7 +283,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
 
         public virtual async Task<IActionResult> Edit(int id)
         {
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageSettings))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
             var slider = await _swiperSliderService.GetSliderByIdAsync(id);
@@ -332,7 +298,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public virtual async Task<IActionResult> Edit(SwiperSliderModel model, bool continueEditing)
         {
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageSettings))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
             var slider = await _swiperSliderService.GetSliderByIdAsync(model.Id);
@@ -368,7 +334,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
         [HttpPost]
         public virtual async Task<IActionResult> Delete(int id)
         {
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageSettings))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
             //try to get a category with the specified id
@@ -390,7 +356,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
         [HttpPost]
         public virtual async Task<IActionResult> DeleteSelected(ICollection<int> selectedIds)
         {
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageSettings))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
             if (selectedIds == null || selectedIds.Count == 0)
@@ -406,6 +372,19 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
 
             return Json(new { Result = true });
 
+        }
+        #endregion
+
+        #region Slider Items
+        [HttpPost]
+        public virtual async Task<IActionResult> SliderItemList(SwiperSliderItemSearchModel searchModel)
+        {
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
+                return await AccessDeniedDataTablesJson();
+
+            var model = await _swiperSliderModelFactory.PrepareSliderItemListModelAsync(searchModel);
+
+            return Json(model);
         }
         #endregion
     }
