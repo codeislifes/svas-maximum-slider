@@ -202,6 +202,11 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
         #endregion
 
         #region List
+        public async Task<IActionResult> Index()
+        {
+            return RedirectToAction("List");
+        }
+
         public async Task<IActionResult> List()
         {
             var searchModel = new SwiperSliderSearchModel();

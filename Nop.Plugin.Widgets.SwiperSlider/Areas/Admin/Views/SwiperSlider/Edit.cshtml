@@ -3,6 +3,7 @@
 @{
     var name = Model.Name;
     ViewBag.PageTitle = T("Nop.Plugin.Widgets.SwiperSlider.Admin.Sliders.Edit.PageTitle", name).Text;
+    NopHtml.SetActiveMenuItemSystemName("Nop.Plugin.Widgets.SwiperSlider.Root");
 }
 
 <form asp-controller="SwiperSlider" asp-action="Edit" method="post" id="slider-form">

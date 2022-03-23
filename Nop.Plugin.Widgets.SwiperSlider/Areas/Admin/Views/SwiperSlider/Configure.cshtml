@@ -3,11 +3,14 @@
 @inject Nop.Services.Common.IGenericAttributeService genericAttributeService;
 
 @{
-    Layout = "_ConfigurePlugin";
+    ViewBag.PageTitle = T("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.PageTitle").Text;
 
     const string hideGeneralBlockAttributeName = "Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.HideGeneralBlock";
     var hideGeneralBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideGeneralBlockAttributeName);
+
+    NopHtml.SetActiveMenuItemSystemName("Nop.Plugin.Widgets.SwiperSlider.Configuration");
 }
+
 <script>
     $(document).ready(function() {
         $("#@Html.IdFor(model => model.Loop)").click(toggleLoop);
@@ -46,12 +49,16 @@
     }
 </script>
 
+<div class="content-header clearfix">
+    <h1 class="float-left">
+        @T("Nop.Plugin.Widgets.SwiperSlider.Admin.Configuration.Title")
+    </h1>
+</div>
 
-
-<div asp-validation-summary="All"></div>
 
 <section class="content">
     <div class="container-fluid">
+        <div asp-validation-summary="All"></div>
         <div class="form-horizontal">
             <form asp-controller="SwiperSlider" asp-action="Configure" method="post">
                 <nop-cards id="swiper-slider-panels">
