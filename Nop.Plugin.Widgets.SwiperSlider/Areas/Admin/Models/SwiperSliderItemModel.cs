@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Web.Framework.Models;
 using Nop.Web.Framework.Mvc.ModelBinding;
 
-namespace Nop.Plugin.Widgets.SwiperSlider.Models
+namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Models
 {
     public partial record SwiperSliderItemModel :
         BaseNopEntityModel,
@@ -21,14 +21,17 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Models
         }
 
         public int SliderId { get; set; }
+        public string PictureThumbnailUrl { get; set; }
 
         [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Slider")]
         public string SliderName { get; set; }
 
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Name")]
+        public string Name { get; set; }
+
         [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Picture")]
         [UIHint("Picture")]
         public int PictureId { get; set; }
-        public string PictureThumbnailUrl { get; set; }
 
         [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Published")]
         public bool Published { get; set; }

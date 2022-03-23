@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
+using Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Models;
 using Nop.Plugin.Widgets.SwiperSlider.Data.Domain;
-using Nop.Plugin.Widgets.SwiperSlider.Models;
 
-namespace Nop.Plugin.Widgets.SwiperSlider.Factories
+namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Factories
 {
     public interface ISwiperSliderModelFactory
     {

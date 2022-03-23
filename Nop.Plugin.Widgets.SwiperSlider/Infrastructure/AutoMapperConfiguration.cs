@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Nop.Core.Infrastructure.Mapper;
+using Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Models;
 using Nop.Plugin.Widgets.SwiperSlider.Data.Domain;
-using Nop.Plugin.Widgets.SwiperSlider.Models;
 
 namespace Nop.Plugin.Widgets.SwiperSlider.Infrastructure
 {

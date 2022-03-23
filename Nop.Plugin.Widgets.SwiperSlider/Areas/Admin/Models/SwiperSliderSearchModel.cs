@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Web.Framework.Models;
 using Nop.Web.Framework.Mvc.ModelBinding;
 
-namespace Nop.Plugin.Widgets.SwiperSlider.Models
+namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Models
 {
     public record SwiperSliderSearchModel : BaseSearchModel, IPagingRequestModel
     {

@@ -1,7 +1,8 @@
 ﻿@model SwiperSliderSettings
 @{
-    NopHtml.AppendScriptParts("~/Plugins/Nop.Plugin.Widgets.SwiperSlider/Content/lib/swiper/swiper-bundle.js");
     NopHtml.AppendCssFileParts("~/Plugins/Nop.Plugin.Widgets.SwiperSlider/Content/lib/swiper/swiper-bundle.css");
+
+    NopHtml.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Nop.Plugin.Widgets.SwiperSlider/Content/lib/swiper/swiper-bundle.js");
 }
 
 @if (!string.IsNullOrEmpty(Model.CustomCss))

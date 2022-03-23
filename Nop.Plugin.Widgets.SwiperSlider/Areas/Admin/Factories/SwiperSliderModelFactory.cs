@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Core.Domain.Catalog;
+using Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Models;
+using Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Services;
 using Nop.Plugin.Widgets.SwiperSlider.Data.Domain;
-using Nop.Plugin.Widgets.SwiperSlider.Models;
-using Nop.Plugin.Widgets.SwiperSlider.Services;
 using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Web.Areas.Admin.Factories;
@@ -14,7 +14,7 @@ using Nop.Web.Framework.Extensions;
 using Nop.Web.Framework.Factories;
 using Nop.Web.Framework.Models.Extensions;
 
-namespace Nop.Plugin.Widgets.SwiperSlider.Factories
+namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Factories
 {
     public class SwiperSliderModelFactory : ISwiperSliderModelFactory
     {
