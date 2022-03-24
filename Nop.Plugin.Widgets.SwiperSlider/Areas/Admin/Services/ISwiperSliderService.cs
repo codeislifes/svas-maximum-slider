@@ -8,20 +8,19 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Services
     public interface ISwiperSliderService
     {
         #region Slider
-        Task<IPagedList<Data.Domain.Slider>> GetAllSlidersAsync(string name,
+        Task<IPagedList<Slider>> GetAllSlidersAsync(string name,
             int storeId = 0,
             int pageIndex = 0,
             int pageSize = int.MaxValue,
             bool showHidden = false,
             bool? overridePublished = null);
 
-        Task<Data.Domain.Slider> GetSliderByIdAsync(int sliderId);
-
-        Task<IList<Data.Domain.Slider>> GetSliderByIdsAsync(ICollection<int> sliderIds);
-        Task InsertSliderAsync(Data.Domain.Slider slider);
-        Task UpdateSliderAsync(Data.Domain.Slider slider);
-        Task DeleteSliderAsync(Data.Domain.Slider slider);
-        Task DeleteSliderAsync(IList<Data.Domain.Slider> sliders);
+        Task<Slider> GetSliderByIdAsync(int sliderId);
+        Task<IList<Slider>> GetSliderByIdsAsync(ICollection<int> sliderIds);
+        Task InsertSliderAsync(Slider slider);
+        Task UpdateSliderAsync(Slider slider);
+        Task DeleteSliderAsync(Slider slider);
+        Task DeleteSliderAsync(IList<Slider> sliders);
         #endregion
 
         #region Slider Items
@@ -33,9 +32,11 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Services
             bool showHidden = false,
             bool? overridePublished = null);
         Task<SliderItem> GetSliderItemByIdAsync(int sliderItemId);
+        Task<IList<SliderItem>> GetSliderItemByIdsAsync(ICollection<int> sliderItemIds);
         Task InsertSliderItemAsync(SliderItem sliderItem);
         Task UpdateSliderItemAsync(SliderItem sliderItem);
         Task DeleteSliderItemAsync(SliderItem sliderItem);
+        Task DeleteSliderItemAsync(IList<SliderItem> sliderItems);
         #endregion
 
     }

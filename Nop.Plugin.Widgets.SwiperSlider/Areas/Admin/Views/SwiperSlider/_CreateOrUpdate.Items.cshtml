@@ -58,37 +58,7 @@
             }
         })
 
-        @*<script>
-                $(document).ready(function () {
-                    $('#delete-selected-action-confirmation-submit-button').bind('click', function () {
-                        var postData = {
-                            selectedIds: selectedIds
-                        };
-                        addAntiForgeryToken(postData);
-                        $.ajax({
-                            cache: false,
-                            type: "POST",
-                            url: "@(Url.Action("DeleteSelected", "SwiperSlider"))",
-                            data: postData,
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                showAlert('deleteSelectedFailed', errorThrown);
-                            },
-                            complete: function (jqXHR, textStatus) {
-                                if (jqXHR.status === 204)
-                                {
-                                    showAlert('nothingSelectedAlert', '@T("Admin.Common.Alert.NothingSelected")');
-                                    return;
-                                }
-                                updateTable('#sliders-grid');
-                            }
-                        });
-                        $('#delete-selected-action-confirmation').modal('toggle');
-                        return false;
-                    });
-                });
-            </script>
-            <nop-alert asp-alert-id="deleteSelectedFailed" />
-            <nop-alert asp-alert-id="nothingSelectedAlert" />*@
+
     </div>
     <div class="card-footer">
         <a asp-action="SliderItemCreate"
@@ -97,7 +67,41 @@
             <i class="fas fa-plus-square"></i>
             @T("Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.CreateButton")
         </a>
+        <button type="button" id="delete-selected-items" class="btn btn-danger">
+            <i class="far fa-trash-alt"></i>
+            @T("Admin.Common.Delete.Selected")
+        </button>
+        <nop-action-confirmation asp-button-id="delete-selected-items" />
     </div>
+    <script>
+        $(document).ready(function () {
+            $('#delete-selected-items-action-confirmation-submit-button').bind('click', function () {
+                var postData = {
+                    selectedIds: selectedIds
+                };
+                addAntiForgeryToken(postData);
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("SliderItemDeleteSelected", "SwiperSlider"))",
+                    data: postData,
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        showAlert('deleteSelectedFailed', errorThrown);
+                    },
+                    complete: function (jqXHR, textStatus) {
+                        if (jqXHR.status === 204)
+                        {
+                            showAlert('nothingSelectedAlert', '@T("Admin.Common.Alert.NothingSelected")');
+                            return;
+                        }
+                        updateTable('#slider-items-grid');
+                    }
+                });
+                $('#delete-selected-items-action-confirmation').modal('toggle');
+                return false;
+            });
+        });
+    </script>
 }
 else
 {
