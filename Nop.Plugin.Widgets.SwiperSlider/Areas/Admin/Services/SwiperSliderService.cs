@@ -124,6 +124,15 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Services
             return await _sliderRepository.GetByIdAsync(sliderId);
         }
 
+        public async Task<IList<Slider>> GetSliderByIdsAsync(ICollection<int> sliderIds)
+        {
+            var query = _sliderRepository.Table;
+
+            query = query.Where(p => sliderIds.Contains(p.Id));
+
+            return await query.ToListAsync();
+        }
+
         public async Task InsertSliderAsync(Slider slider)
         {
             await _sliderRepository.InsertAsync(slider);
@@ -138,18 +147,12 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Services
         {
             await _sliderRepository.DeleteAsync(slider);
         }
+
         public async Task DeleteSliderAsync(IList<Slider> sliders)
         {
             await _sliderRepository.DeleteAsync(sliders);
         }
-        public async Task<IList<Slider>> GetSliderByIdsAsync(ICollection<int> sliderIds)
-        {
-            var query = _sliderRepository.Table;
 
-            query = query.Where(p => sliderIds.Contains(p.Id));
-
-            return await query.ToListAsync();
-        }
         #endregion
 
         #region SliderItem
@@ -222,6 +225,15 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Services
             return await _sliderItemRepository.GetByIdAsync(sliderItemId);
         }
 
+        public async Task<IList<SliderItem>> GetSliderItemByIdsAsync(ICollection<int> sliderItemIds)
+        {
+            var query = _sliderItemRepository.Table;
+
+            query = query.Where(p => sliderItemIds.Contains(p.Id));
+
+            return await query.ToListAsync();
+        }
+
         public async Task InsertSliderItemAsync(SliderItem sliderItem)
         {
             await _sliderItemRepository.InsertAsync(sliderItem);
@@ -235,6 +247,11 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Services
         public async Task DeleteSliderItemAsync(SliderItem sliderItem)
         {
             await _sliderItemRepository.DeleteAsync(sliderItem);
+        }
+
+        public async Task DeleteSliderItemAsync(IList<SliderItem> sliderItems)
+        {
+            await _sliderItemRepository.DeleteAsync(sliderItems);
         }
         #endregion
     }

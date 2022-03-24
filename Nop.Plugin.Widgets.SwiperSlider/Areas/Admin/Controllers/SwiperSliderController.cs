@@ -356,7 +356,6 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
             return View(model);
         }
 
-
         [HttpPost]
         public virtual async Task<IActionResult> Delete(int id)
         {
@@ -496,7 +495,6 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
             return View(model);
         }
 
-
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public virtual async Task<IActionResult> SliderItemEdit(SwiperSliderItemModel model, bool continueEditing)
         {
@@ -533,6 +531,51 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
             model = await _swiperSliderModelFactory.PrepareSliderItemModelAsync(model, null);
 
             return View(model);
+        }
+
+        [HttpPost]
+        public virtual async Task<IActionResult> SliderItemDelete(int id)
+        {
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            //try to get a category with the specified id
+            var sliderItem = await _swiperSliderService.GetSliderItemByIdAsync(id);
+            if (sliderItem == null)
+                return RedirectToAction("List");
+
+            await _swiperSliderService.DeleteSliderItemAsync(sliderItem);
+
+            await _customerActivityService.InsertActivityAsync("DeleteSwiperSliderItem",
+                string.Format(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.ActivityLog.DeleteSwiperSliderItem"), sliderItem.Name), sliderItem);
+
+            var message = await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.SliderItems.Deleted");
+            _notificationService.SuccessNotification(string.Format(message, sliderItem.Name));
+
+            //select an appropriate card
+            SaveSelectedCardName("swiper-slider-items");
+            return RedirectToAction("Edit", new { id = sliderItem.SliderId });
+        }
+
+        [HttpPost]
+        public virtual async Task<IActionResult> SliderItemDeleteSelected(ICollection<int> selectedIds)
+        {
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            if (selectedIds == null || selectedIds.Count == 0)
+                return NoContent();
+
+            var sliders = await _swiperSliderService.GetSliderItemByIdsAsync(selectedIds);
+            await _swiperSliderService.DeleteSliderItemAsync(sliders);
+
+            await _customerActivityService.InsertActivityAsync("DeleteSwiperSliderItems",
+                string.Format(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.ActivityLog.DeleteSwiperSliderItems"), string.Join(',', sliders.Select(p => p.Id))));
+
+            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.SliderItems.AllDeleted"));
+
+            return Json(new { Result = true });
+
         }
         #endregion
     }
