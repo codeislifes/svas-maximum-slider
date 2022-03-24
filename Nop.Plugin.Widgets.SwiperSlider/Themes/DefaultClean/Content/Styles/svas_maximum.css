@@ -1,0 +1,18 @@
+﻿.svas-maximum-slider {
+  margin-bottom: 40px;
+}
+
+  .svas-maximum-slider .swiper-wrapper {
+  }
+
+    .svas-maximum-slider .swiper-wrapper .swiper-slide {
+    }
+
+      .svas-maximum-slider .swiper-wrapper .swiper-slide a {
+        display: block;
+      }
+
+      .svas-maximum-slider .swiper-wrapper .swiper-slide img {
+        display: block;
+        max-width: 100%;
+      }

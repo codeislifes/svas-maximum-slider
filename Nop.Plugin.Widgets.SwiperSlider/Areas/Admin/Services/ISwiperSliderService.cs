@@ -8,7 +8,8 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Services
     public interface ISwiperSliderService
     {
         #region Slider
-        Task<IPagedList<Slider>> GetAllSlidersAsync(string name,
+        Task<IPagedList<Slider>> GetAllSlidersAsync(
+            string name = null,
             int storeId = 0,
             int pageIndex = 0,
             int pageSize = int.MaxValue,
@@ -25,7 +26,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Services
 
         #region Slider Items
         Task<IPagedList<SliderItem>> GetAllSliderItemsAsync(
-            int sliderId = 0,
+            int[] sliderIds = null,
             int storeId = 0,
             int pageIndex = 0,
             int pageSize = int.MaxValue,

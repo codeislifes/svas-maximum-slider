@@ -155,7 +155,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Factories
                 throw new ArgumentNullException(nameof(searchModel));
 
             var sliderItems = await _swiperSliderService.GetAllSliderItemsAsync(
-                sliderId: searchModel.SliderId,
+                sliderIds: new int[] { searchModel.SliderId },
                 storeId: searchModel.SearchStoreId,
                 pageIndex: (searchModel.Page - 1),
                 pageSize: searchModel.PageSize,

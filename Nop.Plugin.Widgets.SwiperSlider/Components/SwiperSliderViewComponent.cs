@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Nop.Plugin.Widgets.SwiperSlider.Factories;
 using Nop.Web.Framework.Components;
 
 namespace Nop.Plugin.Widgets.SwiperSlider.Components
@@ -7,19 +9,23 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Components
     public class SwiperSliderViewComponent : NopViewComponent
     {
         #region Fields
-        private readonly SwiperSliderSettings _cilSliderSettings;
+        private readonly ISwiperSliderViewModelFactory _swiperSliderViewModelFactory;
         #endregion
 
         #region Ctor
-        public SwiperSliderViewComponent(SwiperSliderSettings cilSliderSettings)
+        public SwiperSliderViewComponent
+        (
+            ISwiperSliderViewModelFactory swiperSliderViewModelFactory
+        )
         {
-            _cilSliderSettings = cilSliderSettings;
+            _swiperSliderViewModelFactory = swiperSliderViewModelFactory;
         }
         #endregion
 
-        public IViewComponentResult Invoke(string widgetZone, object additionalData)
+        public async Task<IViewComponentResult> InvokeAsync(string widgetZone, object additionalData)
         {
-            return View(_cilSliderSettings);
+            var model = await _swiperSliderViewModelFactory.GetAllSliders();
+            return View(model);
         }
     }
 }

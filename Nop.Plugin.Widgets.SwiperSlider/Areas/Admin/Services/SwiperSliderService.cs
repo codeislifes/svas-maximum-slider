@@ -53,7 +53,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Services
 
         #region Slider
         public async Task<IPagedList<Slider>> GetAllSlidersAsync(
-            string name,
+            string name = null,
             int storeId = 0,
             int pageIndex = 0,
             int pageSize = int.MaxValue,
@@ -157,7 +157,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Services
 
         #region SliderItem
         public async Task<IPagedList<SliderItem>> GetAllSliderItemsAsync(
-            int sliderId = 0,
+            int[] sliderIds = null,
             int storeId = 0,
             int pageIndex = 0,
             int pageSize = int.MaxValue,
@@ -168,6 +168,9 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Services
 
             if (!showHidden)
                 query = query.Where(s => s.Published);
+
+            if (sliderIds?.Length > 0)
+                query = query.Where(c => sliderIds.Contains(c.SliderId));
 
             query = query.OrderBy(p => p.DisplayOrder).ThenBy(p => p.Id);
 
@@ -216,6 +219,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Services
                             select c;
                 }
             }
+
 
             return await query.ToPagedListAsync(pageIndex, pageSize);
         }

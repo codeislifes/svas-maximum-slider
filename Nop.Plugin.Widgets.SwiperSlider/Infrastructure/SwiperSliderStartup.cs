@@ -1,5 +1,4 @@
-﻿using System;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +7,8 @@ using Nop.Core.Infrastructure;
 using Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Factories;
 using Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Models;
 using Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Services;
-using Nop.Plugin.Widgets.SwiperSlider.Validators;
+using Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Validators;
+using Nop.Plugin.Widgets.SwiperSlider.Factories;
 
 namespace Nop.Plugin.Widgets.SwiperSlider.Infrastructure
 {
@@ -24,6 +24,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Infrastructure
         {
             services.AddScoped<ISwiperSliderService, SwiperSliderService>();
             services.AddScoped<ISwiperSliderModelFactory, SwiperSliderModelFactory>();
+            services.AddScoped<ISwiperSliderViewModelFactory, SwiperSliderViewModelFactory>();
 
             services.Configure<RazorViewEngineOptions>(options =>
             {
