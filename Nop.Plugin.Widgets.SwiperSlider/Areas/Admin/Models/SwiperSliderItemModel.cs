@@ -29,6 +29,12 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Models
         [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Name")]
         public string Name { get; set; }
 
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Url")]
+        public string Url { get; set; }
+
+        [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.AlternateText")]
+        public string AlternateText { get; set; }
+
         [NopResourceDisplayName("Nop.Plugin.Widgets.SwiperSlider.Admin.SliderItems.Fields.Picture")]
         [UIHint("Picture")]
         public int PictureId { get; set; }
