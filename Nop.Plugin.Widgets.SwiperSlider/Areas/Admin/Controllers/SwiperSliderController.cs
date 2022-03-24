@@ -464,7 +464,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
                     _notificationService.SuccessNotification(string.Format(message, sliderItem.Name));
 
                     if (continueEditing)
-                        return RedirectToAction("SliderItemEdit", new { id = sliderItem.Id });
+                        return RedirectToAction("SliderItemEdit", new { id = sliderItem.Id, sliderId = sliderItem.SliderId });
                 }
                 else
                 {

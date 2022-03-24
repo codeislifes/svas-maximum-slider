@@ -1,103 +1,126 @@
-﻿@model SwiperSliderSettings
-@{
-    NopHtml.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Nop.Plugin.Widgets.SwiperSlider/Content/lib/swiper/swiper-bundle.js");
-    NopHtml.AppendCssFileParts("~/Plugins/Nop.Plugin.Widgets.SwiperSlider/Content/lib/swiper/swiper-bundle.css");
-}
+﻿@model List<SwiperSliderViewModel>
 
-@if (!string.IsNullOrEmpty(Model.CustomCss))
+@using Nop.Web.Framework.Themes
+
+@inject IThemeContext themeContext
+@inject SwiperSliderSettings sliderSettings
+
+@if (Model.Any())
 {
-    <style type="text/css">
-        @Model.CustomCss
-    </style>
-}
-<div class="swiper-container">
-    <div class="swiper-wrapper">
-        <div class="swiper-slide">DefaultClean 1</div>
-        <div class="swiper-slide">DefaultClean 2</div>
-        <div class="swiper-slide">DefaultClean 3</div>
+    var themeName = await themeContext.GetWorkingThemeNameAsync();
+    NopHtml.AppendCssFileParts($"~/Plugins/Nop.Plugin.Widgets.SwiperSlider/Themes/{themeName}/Content/Styles/svas_maximum.css");
+    NopHtml.AppendCssFileParts("~/Plugins/Nop.Plugin.Widgets.SwiperSlider/Content/lib/swiper/swiper-bundle.css");
+
+
+    NopHtml.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Nop.Plugin.Widgets.SwiperSlider/Content/lib/swiper/swiper-bundle.js");
+
+
+    @if (!string.IsNullOrEmpty(sliderSettings.CustomCss))
+    {
+        <style type="text/css">
+            @sliderSettings.CustomCss
+        </style>
+    }
+
+    <div class="swiper-container svas-maximum-slider">
+        <div class="swiper-wrapper">
+            @foreach (var sliderItem in Model.OrderBy(p => p.DisplayOrder))
+            {
+                <div class="swiper-slide">
+                    @if (!string.IsNullOrEmpty(sliderItem.Url))
+                    {
+                        @:<a href="@sliderItem.Url" title="@sliderItem.AlternateText">
+                        }
+                    <img src="@sliderItem.PictureUrl" alt="@sliderItem.AlternateText" />
+                    @if (!string.IsNullOrEmpty(sliderItem.Url))
+                    {
+                    @:</a>
+                }
+                </div>
+            }
+        </div>
+        @if (sliderSettings.PaginationEnabled)
+        {
+            <div class="swiper-pagination"></div>
+        }
+
+        @if (sliderSettings.NavigationEnabled)
+        {
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        }
+
+        @if (sliderSettings.ScrollBarEnabled)
+        {
+            <div class="swiper-scrollbar"></div>
+        }
     </div>
-    @if (Model.PaginationEnabled)
-    {
-        <div class="swiper-pagination"></div>
-    }
 
-    @if (Model.NavigationEnabled)
-    {
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-    }
-
-    @if (Model.ScrollBarEnabled)
-    {
-        <div class="swiper-scrollbar"></div>
-    }
-</div>
-
-<script asp-location="Footer">
-    var mySwiper = new Swiper('@Model.ContainerCssSelector', {
-        direction: '@Model.Direction.ToString().ToLower()',
-        freeMode: @Model.FreeModeEnabled.ToString().ToLower(),
-        centeredSlides: @Model.CenteredSlidesEnabled.ToString().ToLower(),
-        loop: @Model.Loop.ToString().ToLower(),
-        @if(Model.Loop)
+    <script asp-location="Footer">
+    var mySwiper = new Swiper('@sliderSettings.ContainerCssSelector', {
+        direction: '@sliderSettings.Direction.ToString().ToLower()',
+        freeMode: @sliderSettings.FreeModeEnabled.ToString().ToLower(),
+        centeredSlides: @sliderSettings.CenteredSlidesEnabled.ToString().ToLower(),
+        loop: @sliderSettings.Loop.ToString().ToLower(),
+        @if(sliderSettings.Loop)
         {
             <text>
-                loopFillGroupWithBlank: @Model.LoopFillGroupWithBlankEnabled.ToString().ToLower(),
+                loopFillGroupWithBlank: @sliderSettings.LoopFillGroupWithBlankEnabled.ToString().ToLower(),
             </text>
         }
-        speed: @Model.Speed,
-        @if(Model.PaginationEnabled)
+        speed: @sliderSettings.Speed,
+        @if(sliderSettings.PaginationEnabled)
         {
             <text>
             // If we need pagination
             pagination: {
-                el: '@Model.PaginationCssSelector',
-                clickable: @Model.PaginationClickableEnabled.ToString().ToLower(),
-                dynamicBullets: @Model.DynamicBulletsEnabled.ToString().ToLower()
+                el: '@sliderSettings.PaginationCssSelector',
+                clickable: @sliderSettings.PaginationClickableEnabled.ToString().ToLower(),
+                dynamicBullets: @sliderSettings.DynamicBulletsEnabled.ToString().ToLower()
             },
             </text>
         }
 
-        @if(Model.NavigationEnabled)
+        @if(sliderSettings.NavigationEnabled)
         {
             <text>
             // Navigation arrows
             navigation: {
-                nextEl: '@Model.NavigationNextCssSelector',
-                prevEl: '@Model.NavigationPrevCssSelector',
+                nextEl: '@sliderSettings.NavigationNextCssSelector',
+                prevEl: '@sliderSettings.NavigationPrevCssSelector',
             },
             </text>
         }
 
 
-        @if(Model.ScrollBarEnabled)
+        @if(sliderSettings.ScrollBarEnabled)
         {
             <text>
             // And if we need scrollbar
             scrollbar: {
-                el: '@Model.ScrollBarCssSelector',
+                el: '@sliderSettings.ScrollBarCssSelector',
             },
             </text>
         }
 
-        @if(Model.AutoPlayEnabled)
+        @if(sliderSettings.AutoPlayEnabled)
         {
             <text>
                 autoplay: {
-                    delay: @Model.AutoPlayDelay,
-                    disableOnInteraction: @Model.AutoPlayDisableOnInteraction.ToString().ToLower()
+                    delay: @sliderSettings.AutoPlayDelay,
+                    disableOnInteraction: @sliderSettings.AutoPlayDisableOnInteraction.ToString().ToLower()
                 },
             </text>
         }
 
-        @if(!string.IsNullOrEmpty(Model.SlidesPerView))
+        @if(!string.IsNullOrEmpty(sliderSettings.SlidesPerView))
         {
-            if(Int32.TryParse(Model.SlidesPerView, out var slidePerView))
+            if(Int32.TryParse(sliderSettings.SlidesPerView, out var slidePerView))
             {
                 var spw = slidePerView;
                 <text>
                     slidesPerView: @spw,
-                    slidesPerGroup: @Model.SlidesPerGroup,
+                    slidesPerGroup: @sliderSettings.SlidesPerGroup,
                 </text>
             }
             else
@@ -109,13 +132,14 @@
 
         }
 
-        @if(Model.SpaceBetween > 0)
+        @if(sliderSettings.SpaceBetween > 0)
         {
             <text>
-                spaceBetween: @Model.SpaceBetween,
+                spaceBetween: @sliderSettings.SpaceBetween,
             </text>
         }
 
 
     })
-</script>
+    </script>
+}
