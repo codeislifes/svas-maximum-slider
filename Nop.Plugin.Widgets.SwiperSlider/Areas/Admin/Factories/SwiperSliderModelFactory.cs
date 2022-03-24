@@ -18,9 +18,9 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Factories
 {
     public class SwiperSliderModelFactory : ISwiperSliderModelFactory
     {
-        private readonly IPictureService _pictureService;
         #region Fields
 
+        private readonly IPictureService _pictureService;
         private readonly CatalogSettings _catalogSettings;
         private readonly ILocalizationService _localizationService;
         private readonly ISwiperSliderService _swiperSliderService;
@@ -186,7 +186,7 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Factories
                 model.SliderName = slider.Name;
 
                 var picture = await _pictureService.GetPictureByIdAsync(sliderItem.PictureId);
-                (model.PictureThumbnailUrl, _) = await _pictureService.GetPictureUrlAsync(picture, 75);
+                (model.PictureThumbnailUrl, _) = await _pictureService.GetPictureUrlAsync(picture, 120);
             }
 
             if (sliderItem == null)
