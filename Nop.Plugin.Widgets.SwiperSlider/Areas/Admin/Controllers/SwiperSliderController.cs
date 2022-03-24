@@ -463,15 +463,67 @@ namespace Nop.Plugin.Widgets.SwiperSlider.Areas.Admin.Controllers
 
                     var message = await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.SliderItems.Added");
                     _notificationService.SuccessNotification(string.Format(message, sliderItem.Name));
+
+                    if (continueEditing)
+                        return RedirectToAction("SliderItemEdit", new { id = sliderItem.Id });
                 }
                 else
+                {
                     _notificationService.ErrorNotification(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.SliderItems.NotAdded"));
+                }
 
+                //select an appropriate card
+                SaveSelectedCardName("swiper-slider-items");
+                return RedirectToAction("Edit", new { id = model.SliderId });
+            }
+
+            model = await _swiperSliderModelFactory.PrepareSliderItemModelAsync(model, null);
+
+            return View(model);
+        }
+
+        public virtual async Task<IActionResult> SliderItemEdit(int id, int sliderId)
+        {
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            var sliderItem = await _swiperSliderService.GetSliderItemByIdAsync(id);
+            if (sliderItem == null)
+                return RedirectToAction("Edit", new { id = sliderId });
+
+            var model = await _swiperSliderModelFactory.PrepareSliderItemModelAsync(null, sliderItem);
+
+            return View(model);
+        }
+
+
+        [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
+        public virtual async Task<IActionResult> SliderItemEdit(SwiperSliderItemModel model, bool continueEditing)
+        {
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            var sliderItem = await _swiperSliderService.GetSliderItemByIdAsync(model.Id);
+            if (sliderItem == null)
+                return RedirectToAction("Edit", new { id = model.SliderId });
+
+            if (ModelState.IsValid)
+            {
+                sliderItem = model.ToEntity(sliderItem);
+                await _swiperSliderService.UpdateSliderItemAsync(sliderItem);
+
+                await SaveSliderItemAclAsync(sliderItem, model);
+                await SaveSliderItemStoreMappingsAsync(sliderItem, model);
+
+
+                await _customerActivityService.InsertActivityAsync("EditSwiperSliderItem",
+                    string.Format(await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.ActivityLog.EditSwiperSliderItem"), sliderItem.Name), sliderItem);
+
+                var message = await _localizationService.GetResourceAsync("Nop.Plugin.Widgets.SwiperSlider.Admin.Notifications.SliderItems.Updated");
+                _notificationService.SuccessNotification(string.Format(message, sliderItem.Name));
 
                 if (continueEditing)
-                {
-                    return RedirectToAction("SliderItemCreate", new { sliderId = model.SliderId });
-                }
+                    return RedirectToAction("SliderItemEdit", new { id = sliderItem.Id, sliderId = model.SliderId });
 
                 //select an appropriate card
                 SaveSelectedCardName("swiper-slider-items");
