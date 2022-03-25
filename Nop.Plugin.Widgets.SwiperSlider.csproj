@@ -13,7 +13,10 @@
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove=".gitignore" />
     <None Remove="Areas\Admin\Views\_ViewStart.cshtml" />
+    <None Remove="LICENSE.md" />
+    <None Remove="README.md" />
   </ItemGroup>
 
   <ItemGroup>
